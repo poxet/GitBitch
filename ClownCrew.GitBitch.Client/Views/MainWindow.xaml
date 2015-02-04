@@ -1,0 +1,17 @@
+﻿<Window x:Class="ClownCrew.GitBitch.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModels="clr-namespace:ClownCrew.GitBitch.Client.ViewModels"
+        Title="Git Bitch Alfa"
+        Height="350"
+        Width="525">
+
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Window.DataContext>
+    
+    <Grid>
+        <ListView ItemsSource="{Binding Phrases}">
+        </ListView>
+    </Grid>
+</Window>

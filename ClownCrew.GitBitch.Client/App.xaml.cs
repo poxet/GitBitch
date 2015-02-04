@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using ClownCrew.GitBitch.Client.Agents;
 
-namespace ClownCrew.GitBitch
+namespace ClownCrew.GitBitch.Client
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public partial class App
     {
+        public App()
+        {
+            var talkAgent = new TalkAgent();
+            talkAgent.Say("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
+        }
     }
 }
