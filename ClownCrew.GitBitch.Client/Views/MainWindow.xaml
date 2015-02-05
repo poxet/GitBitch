@@ -1,4 +1,4 @@
-﻿<Window x:Class="ClownCrew.GitBitch.MainWindow"
+﻿<Window x:Class="ClownCrew.GitBitch.Client.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:ClownCrew.GitBitch.Client.ViewModels"

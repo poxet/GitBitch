@@ -1,36 +1,45 @@
 ﻿using System;
 using System.Speech.Synthesis;
+using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Agents
 {
-    class TalkAgent : ITalkAgent
+    public class TalkAgent : ITalkAgent
     {
-        public event EventHandler<EventArgs> SayEvent;
+        public event EventHandler<SayEventArgs> SayEvent;
 
         private void InvokeSayEvent(string phrase)
         {
             var handler = SayEvent;
             if (handler != null) 
-                handler(null, EventArgs.Empty);
+                handler(null, new SayEventArgs(phrase));
         }
 
-        public string Say(string phrase)
+        public async Task<string> SayAsync(string phrase)
         {
-            var builder = new PromptBuilder();
-            builder.StartSentence();
-            builder.AppendText(phrase);
-            builder.EndSentence();
+            var actualPhrase = phrase;
 
-            using (var synthesizer = new SpeechSynthesizer())
+            InvokeSayEvent(actualPhrase);
+
+            var task = Task.Factory.StartNew(() =>
             {
-                //synthesizer.SelectVoice("Microsoft David Desktop");
-                //synthesizer.SelectVoice("Microsoft Hazel Desktop");
-                synthesizer.SelectVoice("Microsoft Zira Desktop");
-                synthesizer.Speak(builder);
-            }
+                var builder = new PromptBuilder();
+                builder.StartSentence();
+                builder.AppendText(actualPhrase);
+                builder.EndSentence();
 
-            return phrase;
+                using (var synthesizer = new SpeechSynthesizer())
+                {
+                    //synthesizer.SelectVoice("Microsoft David Desktop");
+                    //synthesizer.SelectVoice("Microsoft Hazel Desktop");
+                    synthesizer.SelectVoice("Microsoft Zira Desktop");
+                    synthesizer.Speak(builder);
+                }
+            });
+
+            await task;
+            return actualPhrase;
         }
     }
 }

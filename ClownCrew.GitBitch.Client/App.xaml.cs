@@ -1,4 +1,4 @@
-﻿using ClownCrew.GitBitch.Client.Agents;
+﻿using System.Windows;
 
 namespace ClownCrew.GitBitch.Client
 {
@@ -6,8 +6,17 @@ namespace ClownCrew.GitBitch.Client
     {
         public App()
         {
-            var talkAgent = new TalkAgent();
-            talkAgent.Say("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
+            Dispatcher.UnhandledException += Dispatcher_UnhandledException;
+        }
+
+        void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            CompositeRoot.Instance.TalkAgent.SayAsync("Oups, now we have problems! " + e.Exception.Message);
+        }
+
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
         }
     }
 }

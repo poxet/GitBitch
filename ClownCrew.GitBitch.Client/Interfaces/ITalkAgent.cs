@@ -1,7 +1,12 @@
-﻿namespace ClownCrew.GitBitch.Client.Interfaces
+﻿using System;
+using System.Threading.Tasks;
+
+namespace ClownCrew.GitBitch.Client.Interfaces
 {
-    internal interface ITalkAgent
+    public interface ITalkAgent
     {
-        string Say(string phrase);
+        event EventHandler<SayEventArgs> SayEvent;
+
+        Task<string> SayAsync(string phrase);
     }
 }
