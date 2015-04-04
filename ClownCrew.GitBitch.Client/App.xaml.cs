@@ -9,7 +9,7 @@ namespace ClownCrew.GitBitch.Client
             Dispatcher.UnhandledException += Dispatcher_UnhandledException;
         }
 
-        void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        private void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             CompositeRoot.Instance.TalkAgent.SayAsync("Oups, now we have problems! " + e.Exception.Message);
         }

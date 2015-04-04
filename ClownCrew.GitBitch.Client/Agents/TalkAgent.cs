@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Interfaces;
+using ClownCrew.GitBitch.Client.Model;
 
 namespace ClownCrew.GitBitch.Client.Agents
 {
     public class TalkAgent : ITalkAgent
-    {
+    {        
         public event EventHandler<SayEventArgs> SayEvent;
 
         private void InvokeSayEvent(string phrase)
@@ -40,6 +42,12 @@ namespace ClownCrew.GitBitch.Client.Agents
 
             await task;
             return actualPhrase;
+        }
+
+        public async Task<Answer<T>> AskAsync<T>(string question, List<QuestionAnswerAlternative<T>> alternatives, int millisecondsTimeout = 3000)
+        {
+            var qa = new QuestionAgent(this);
+            return await qa.AskAsync<T>(question, alternatives, millisecondsTimeout);
         }
     }
 }

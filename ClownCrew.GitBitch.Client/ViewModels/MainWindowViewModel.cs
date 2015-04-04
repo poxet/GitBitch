@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ClownCrew.GitBitch.Client.Annotations;
@@ -18,7 +17,7 @@ namespace ClownCrew.GitBitch.Client.ViewModels
             CompositeRoot.Instance.TalkAgent.SayEvent += TalkAgent_SayEvent;
         }
 
-        void TalkAgent_SayEvent(object sender, SayEventArgs e)
+        private void TalkAgent_SayEvent(object sender, SayEventArgs e)
         {
             Phrases.Add(e.Phrase);
         }

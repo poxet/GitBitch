@@ -16,12 +16,19 @@ namespace ClownCrew.GitBitch.Client
         }
 
         public ITalkAgent TalkAgent { get { return _container.Resolve<ITalkAgent>(); } }
+        public ICommandAgent CommandAgent { get { return _container.Resolve<ICommandAgent>(); } }
+        public IGitRepoAgent GitRepoAgent { get { return _container.Resolve<IGitRepoAgent>(); } }
+        public IRepositoryBusines RepositoryBusines { get { return _container.Resolve<IRepositoryBusines>(); } }
+        public ISettingAgent SettingAgent { get { return _container.Resolve<ISettingAgent>(); } }
 
         private CompositeRoot()
         {
             _container = new WindsorContainer();
-            //container.Install(FromAssembly.This());
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<TalkAgent>()).WithService.DefaultInterfaces().LifestyleSingleton()); 
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<TalkAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<GitRepoAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<DataRepository>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<RepositoryBusines>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<SettingAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
         }
 
         ~CompositeRoot()

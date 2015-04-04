@@ -64,7 +64,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Agents\CommandAgent.cs" />
+    <Compile Include="Agents\DataRepository.cs" />
+    <Compile Include="Agents\GitBitchCommand.cs" />
+    <Compile Include="Agents\GitBitchCommands.cs" />
+    <Compile Include="Agents\GitBitchOpenCommand.cs" />
+    <Compile Include="Agents\GitRepoAgent.cs" />
+    <Compile Include="Agents\GitRepository.cs" />
+    <Compile Include="Agents\QuestionAgent.cs" />
+    <Compile Include="Agents\RegisterPhraseEventArgs.cs" />
+    <Compile Include="Agents\RepositoryAddedEventArgs.cs" />
+    <Compile Include="Agents\RepositoryBusines.cs" />
+    <Compile Include="Agents\SettingAgent.cs" />
+    <Compile Include="Agents\WindowsCommands.cs" />
     <Compile Include="CompositeRoot.cs" />
+    <Compile Include="Interfaces\ICommandAgent.cs" />
+    <Compile Include="Interfaces\IDataRepository.cs" />
+    <Compile Include="Interfaces\IGitBitchCommand.cs" />
+    <Compile Include="Interfaces\IGitBitchCommands.cs" />
+    <Compile Include="Interfaces\IGitRepoAgent.cs" />
+    <Compile Include="Interfaces\IGitRepository.cs" />
+    <Compile Include="Interfaces\IQuestionAgent.cs" />
+    <Compile Include="Interfaces\IRepositoryBusines.cs" />
+    <Compile Include="Interfaces\ISettingAgent.cs" />
     <Compile Include="Interfaces\ITalkAgent.cs" />
     <Compile Include="Agents\TalkAgent.cs" />
     <Compile Include="App.xaml.cs">
@@ -72,6 +94,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\SayEventArgs.cs" />
+    <Compile Include="Model\Answer.cs" />
+    <Compile Include="Model\QuestionAnswerAlternative.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
@@ -107,9 +131,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
