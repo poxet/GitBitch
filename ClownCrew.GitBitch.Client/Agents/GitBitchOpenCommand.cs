@@ -13,7 +13,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             : base("Open")
         {
             _greeting = settingAgent.GetSetting("Greeting", new Tuple<string, bool>("please", false));
-            _bitchName = settingAgent.GetSetting("BitchName", new Tuple<string, bool>("bitch", true));
+            _bitchName = settingAgent.GetSetting("BitchName", new Tuple<string, bool>(Constants.DefaultBitchName, true));
 
             repositoryBusiness.RepositoryAddedEvent += RepositoryBusiness_RepositoryAddedEvent;
         }

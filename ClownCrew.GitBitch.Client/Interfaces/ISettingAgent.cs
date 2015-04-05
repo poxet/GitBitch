@@ -2,6 +2,8 @@
 {
     public interface ISettingAgent
     {
-        T GetSetting<T>(string prefix, T defaultValue);
+        void SetSetting<T>(string name, T value);
+        T GetSetting<T>(string name, T defaultValue);
+        T GetSetting<T>(string name);
     }
 }

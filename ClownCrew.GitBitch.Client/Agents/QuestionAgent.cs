@@ -49,7 +49,7 @@ namespace ClownCrew.GitBitch.Client.Agents
                 //TODO: Wait for input, pick default if there is no response in a while
                 if (!_responseEvent.WaitOne(millisecondsTimeout))
                 {
-                    var defaultAlternative = alternatives.First(x => x.IsDefault);
+                    var defaultAlternative = alternatives.FirstOrDefault(x => x.IsDefault) ?? alternatives.First();
                     var response = "No answer, so " + defaultAlternative.Phrases.First() + " then.";
                     await _talkAgent.SayAsync(response);
                     return new Answer<T>(defaultAlternative.Response);
@@ -118,7 +118,7 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         void localSR_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
-            throw new NotImplementedException();
+            System.Diagnostics.Debug.WriteLine("Speech recognized as " + e.Result.Text + ".");
         }
     }
 }

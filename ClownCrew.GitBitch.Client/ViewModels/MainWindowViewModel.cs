@@ -19,7 +19,7 @@ namespace ClownCrew.GitBitch.Client.ViewModels
 
         private void TalkAgent_SayEvent(object sender, SayEventArgs e)
         {
-            Phrases.Add(e.Phrase);
+            Phrases.Add(e.Name + ": " + e.Phrase);
         }
 
         public ObservableCollection<string> Phrases { get; private set; }
