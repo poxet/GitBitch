@@ -7,6 +7,7 @@ namespace ClownCrew.GitBitch.Client.Agents
     {
         private readonly IDataRepository _dataRepository;
         public event EventHandler<RepositoryAddedEventArgs> RepositoryAddedEvent;
+        private string _selectedRepositoryName;
 
         public RepositoryBusines(IDataRepository dataRepository)
         {
@@ -24,6 +25,11 @@ namespace ClownCrew.GitBitch.Client.Agents
             var gitRepo = new GitRepository(name, path);
             _dataRepository.AddRepository(gitRepo);
             InvokeRepositoryAddedEvent(gitRepo);
+        }
+
+        public void Select(string name)
+        {
+            _selectedRepositoryName = name;
         }
     }
 }

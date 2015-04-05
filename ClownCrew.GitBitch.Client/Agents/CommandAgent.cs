@@ -9,6 +9,7 @@ namespace ClownCrew.GitBitch.Client.Agents
 {
     public class CommandAgent : ICommandAgent
     {
+        private static readonly object SyncRoot = new object();
         private readonly ITalkAgent _talkAgent;
         private readonly List<IGitBitchCommand> _commands;
         private readonly SpeechRecognitionEngine _sre;
@@ -69,15 +70,26 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         private async void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
-            foreach (var command in _commands)
+            var command = FindCommand(e);
+            if (command != null)
             {
-                foreach (var phrase in command.Phrases)
-                {
-                    if (string.Compare(phrase, e.Result.Text, StringComparison.InvariantCultureIgnoreCase) == 0)
-                    {
-                        await command.ExecuteAsync();
-                    }
-                }
+                await command.ExecuteAsync();
+            }
+        }
+
+        private IGitBitchCommand FindCommand(SpeechRecognizedEventArgs e)
+        {
+            return _commands.FirstOrDefault(command => command.Phrases.Any(phrase => string.Compare(phrase, e.Result.Text, StringComparison.InvariantCultureIgnoreCase) == 0));
+        }
+
+        public async Task ClrearAsync()
+        {
+            _sre.RecognizeAsyncStop();
+            _commands.Clear();
+            lock (SyncRoot)
+            {
+                _sre.UnloadAllGrammars();
+                _initiated = false;
             }
         }
 
@@ -85,7 +97,11 @@ namespace ClownCrew.GitBitch.Client.Agents
         {
             foreach (var command in gitBitchCommands.Items)
             {
-                AddPhrases(command.Phrases.ToArray());
+                if (command.Phrases.Any())
+                {
+                    AddPhrases(command.Phrases.ToArray());
+                }
+
                 command.RegisterPhraseEvent += Command_RegisterPhraseEvent;
                 _commands.Add(command);
             }
@@ -95,18 +111,17 @@ namespace ClownCrew.GitBitch.Client.Agents
         {
             var choices = new Choices();
             choices.Add(phrases.ToArray());
-            _sre.LoadGrammarAsync(new Grammar(choices));
 
-            if (!_initiated)
+            lock (SyncRoot)
             {
-                _initiated = true;
-                _sre.RecognizeAsync(RecognizeMode.Multiple);
-            }
+                _sre.LoadGrammarAsync(new Grammar(choices));
 
-            //foreach (var phrase in phrases)
-            //{
-            //    await _talkAgent.SayAsync("Now I understand the phrase " + phrase + ".");                
-            //}
+                if (!_initiated)
+                {
+                    _initiated = true;
+                    _sre.RecognizeAsync(RecognizeMode.Multiple);
+                }
+            }
         }
 
         private void Command_RegisterPhraseEvent(object sender, RegisterPhraseEventArgs e)

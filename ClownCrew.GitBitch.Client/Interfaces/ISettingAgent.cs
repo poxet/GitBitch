@@ -4,6 +4,7 @@
     {
         bool HasSetting(string name);
         void SetSetting<T>(string name, T value);
+        void SetSetting<T>(string subPath, string name, T value);
         T GetSetting<T>(string name, T defaultValue);
     }
 }

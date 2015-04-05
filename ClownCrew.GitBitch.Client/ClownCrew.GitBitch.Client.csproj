@@ -45,6 +45,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Speech" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -62,12 +63,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\EnterStringWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Agents\ForegroundWindow.cs" />
     <Compile Include="Agents\RegistryRepository.cs" />
+    <Compile Include="Agents\WindowWrapper.cs" />
     <Compile Include="Commands\Application\ApplicationCommands.cs" />
+    <Compile Include="Commands\Application\ChangeNameCommand.cs" />
     <Compile Include="Commands\Application\CloseCommand.cs" />
     <Compile Include="Agents\CommandAgent.cs" />
     <Compile Include="Agents\Constants.cs" />
@@ -87,6 +95,7 @@
     <Compile Include="Agents\RepositoryBusines.cs" />
     <Compile Include="Agents\SettingAgent.cs" />
     <Compile Include="Commands\GenericCommand.cs" />
+    <Compile Include="Commands\Git\GitBitchSelectCommand.cs" />
     <Compile Include="Commands\Windows\LockMachineCommand.cs" />
     <Compile Include="Commands\Windows\WindowsCommands.cs" />
     <Compile Include="CompositeRoot.cs" />
@@ -111,8 +120,12 @@
     <Compile Include="Model\Answer.cs" />
     <Compile Include="Model\QuestionAnswerAlternative.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\EnterStringViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SafeObservableCollection.cs" />
+    <Compile Include="Views\EnterStringWindow.xaml.cs">
+      <DependentUpon>EnterStringWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

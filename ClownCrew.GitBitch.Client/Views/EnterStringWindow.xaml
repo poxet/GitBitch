@@ -1,0 +1,20 @@
+﻿<Window x:Class="ClownCrew.GitBitch.Client.Views.EnterStringWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModels="clr-namespace:ClownCrew.GitBitch.Client.ViewModels"
+        Title="{Binding Path=Title}" 
+        Height="300" Width="300">
+
+    <Window.DataContext>
+        <viewModels:EnterStringViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <StackPanel>
+            <Label Content="{Binding Path=Label}" />
+            <TextBox Text="{Binding Path=StringValue}"/>
+            <Button Content="OK" IsDefault="true" Click="Ok_OnClick" />
+            <Button Content="Cancel" IsCancel="True" Click="Cancel_OnClick" />
+        </StackPanel>
+    </Grid>
+</Window>

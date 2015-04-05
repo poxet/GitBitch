@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ClownCrew.GitBitch.Client.Annotations;
 using ClownCrew.GitBitch.Client.Interfaces;

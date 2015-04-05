@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
+using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Commands.Application;
+using ClownCrew.GitBitch.Client.Commands.Windows;
 
 namespace ClownCrew.GitBitch.Client
 {
@@ -28,6 +31,14 @@ namespace ClownCrew.GitBitch.Client
         private void CloseDownEvent(object sender, EventArgs e)
         {
             Dispatcher.Invoke(Shutdown);
+        }
+
+        public static async Task RegisterCommands()
+        {
+            await CompositeRoot.Instance.CommandAgent.ClrearAsync();
+            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new ApplicationCommands());
+            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new WindowsCommands());
+            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new GitBitchCommands());
         }
     }
 }

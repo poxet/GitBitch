@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Interfaces;
 
@@ -8,54 +6,52 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
 {
     public class GitBitchOpenCommand : GitBitchCommand
     {
-        public GitBitchOpenCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness)
-            : base(settingAgent, "Open")
+        private readonly IRepositoryBusines _repositoryBusiness;
+        private readonly IQuestionAgent _questionAgent;
+        private readonly ITalkAgent _talkAgent;
+
+        public GitBitchOpenCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, IQuestionAgent questionAgent, ITalkAgent talkAgent)
+            : base(settingAgent, "Open", new[] { "open repo", "open repository" })
         {
-            repositoryBusiness.RepositoryAddedEvent += RepositoryBusiness_RepositoryAddedEvent;
-        }
-
-        private void RepositoryBusiness_RepositoryAddedEvent(object sender, RepositoryAddedEventArgs e)
-        {
-            var rawPhrases = new [] { "Open {RepositoryName}", "Select {RepositoryName}" };
-            var actualPhrases = new List<string>();
-            foreach (var phrase in rawPhrases)
-            {
-                var actualPhrase = phrase.Replace("{RepositoryName}", e.GitRepository.Name);
-                actualPhrases.Add(actualPhrase);
-            }
-
-            //foreach (var phrase in rawPhrases)
-            //{
-            //    var actualPhrase = phrase.Replace("{RepositoryName}", e.GitRepository.Name);
-
-            //    if (!string.IsNullOrEmpty(_greeting.Item1) && !string.IsNullOrEmpty(_bitchName.Item1))
-            //    {
-            //        actualPhrases.Add(_greeting.Item1 + " " + actualPhrase + " " + _bitchName.Item1);
-            //        actualPhrases.Add(_bitchName.Item1 + " " + actualPhrase + " " + _greeting.Item1);
-            //    }
-
-            //    if (!string.IsNullOrEmpty(_bitchName.Item1) && !_greeting.Item2)
-            //    {
-            //        actualPhrases.Add(actualPhrase + " " + _bitchName.Item1);
-            //        actualPhrases.Add(_bitchName.Item1 + " " + actualPhrase);
-            //    }
-
-            //    if (!string.IsNullOrEmpty(_greeting.Item1) && !_bitchName.Item2)
-            //    {
-            //        actualPhrases.Add(_greeting.Item1 + " " + actualPhrase);
-            //        actualPhrases.Add(actualPhrase + " " + _greeting.Item1);
-            //    }
-
-            //    if (!_greeting.Item2 && !_bitchName.Item2)
-            //        actualPhrases.Add(actualPhrase);
-            //}
-
-            AddPhrases(actualPhrases.ToArray());
+            _repositoryBusiness = repositoryBusiness;
+            _questionAgent = questionAgent;
+            _talkAgent = talkAgent;
         }
 
         public async override Task ExecuteAsync()
         {
-            throw new NotImplementedException();
+            string path = null;
+            while (path == null)
+            {
+                path = await _questionAgent.AskFolderAsync("Please select the folder where the repository is located.");
+
+                if (path == null)
+                {
+                    await _talkAgent.SayAsync("Okey, so you changed your mind.");
+                    return;
+                }
+
+                if (!System.IO.Directory.Exists(path + "\\.git"))
+                {
+                    await _talkAgent.SayAsync("I cannot find the '.git' folder in this path.");
+                    path = null;
+                }
+            }
+
+            var name = await _questionAgent.AskStringAsync("What name do you want for the repository?");
+            if (!string.IsNullOrEmpty(name))
+            {
+                _settingAgent.SetSetting("Repositories", name, path);
+
+                //TODO: Store informaton about this repo in registry
+                //TODO: Select this repository
+                await _talkAgent.SayAsync("I have selected repository " + name + " for you.");
+                _repositoryBusiness.Select(name);
+            }
+            else
+            {
+                await _talkAgent.SayAsync("Open repository was aborted.");
+            }
         }
     }
 }

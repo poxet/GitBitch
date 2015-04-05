@@ -8,5 +8,7 @@ namespace ClownCrew.GitBitch.Client.Interfaces
     {
         Task<Answer<T>> AskAsync<T>(string question, List<QuestionAnswerAlternative<T>> alternatives, int millisecondsTimeout = 3000);
         Task<bool> AskYesNoAsync(string question, int millisecondsTimeout = 3000);
+        Task<string> AskFolderAsync(string question, int millisecondsTimeout = 3000);
+        Task<string> AskStringAsync(string question, int millisecondsTimeout = 3000);
     }
 }

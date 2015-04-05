@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Interfaces;
 
@@ -7,14 +8,16 @@ namespace ClownCrew.GitBitch.Client.Agents
 {
     public abstract class GitBitchCommand : IGitBitchCommand
     {
+        protected readonly ISettingAgent _settingAgent;
+
         private readonly string _name;
         private readonly Tuple<string, bool> _greeting;
         private readonly Tuple<string, bool> _bitchName;
-
         private readonly List<string> _phrases = new List<string>();
 
         protected GitBitchCommand(ISettingAgent settingAgent, string name, string[] phrases = null)
         {
+            _settingAgent = settingAgent;
             _name = name;
             var greetingName = settingAgent.GetSetting(Constants.Greeting, Constants.DefaultGreeting);
             var requireGreeting = settingAgent.GetSetting(Constants.RequireGreeting, false);

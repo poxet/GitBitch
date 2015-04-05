@@ -4,8 +4,8 @@ namespace ClownCrew.GitBitch.Client.Agents
 {
     public class SettingAgent : ISettingAgent
     {
+        private const string RegistryPath = @"Software\Thargelion\GitBitch";
         private readonly IRegistryRepository _registryRepository;
-        private string _registryPath = @"Software\Thargelion\GitBitch";
 
         public SettingAgent(IRegistryRepository registryRepository)
         {
@@ -14,17 +14,22 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         public bool HasSetting(string name)
         {
-            return _registryRepository.HasSetting(RegistryHKey.CurrentUser, _registryPath, name);
+            return _registryRepository.HasSetting(RegistryHKey.CurrentUser, RegistryPath, name);
         }
 
         public void SetSetting<T>(string name, T value)
         {
-            _registryRepository.SetSetting(RegistryHKey.CurrentUser, _registryPath, name, value);
+            _registryRepository.SetSetting(RegistryHKey.CurrentUser, RegistryPath, name, value);
+        }
+
+        public void SetSetting<T>(string subPath, string name, T value)
+        {
+            _registryRepository.SetSetting(RegistryHKey.CurrentUser, RegistryPath + "\\" + subPath, name, value);
         }
 
         public T GetSetting<T>(string name, T defaultValue)
         {
-            return _registryRepository.GetSetting(RegistryHKey.CurrentUser, _registryPath, name, defaultValue);
+            return _registryRepository.GetSetting(RegistryHKey.CurrentUser, RegistryPath, name, defaultValue);
         }
     }
 }

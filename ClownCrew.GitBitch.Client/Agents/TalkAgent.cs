@@ -24,14 +24,28 @@ namespace ClownCrew.GitBitch.Client.Agents
                 handler(null, new SayEventArgs(name, phrase));
         }
 
+        //public string StartSay(string phrase)
+        //{
+        //    var actualPhrase = phrase;
+        //    DoSay(actualPhrase);
+        //    return actualPhrase;
+        //}
+
         public async Task<string> SayAsync(string phrase)
         {
             var actualPhrase = phrase;
+            await DoSay(actualPhrase);
+            return actualPhrase;
+        }
 
+        private async Task DoSay(string actualPhrase)
+        {
             var bitchName = _settingAgent.GetSetting("BitchName", Constants.DefaultBitchName);
             InvokeSayEvent(bitchName, actualPhrase);
 
-            var task = Task.Factory.StartNew(() =>
+            //var task = new Task();
+
+            var task = new Task(() =>
             {
                 var builder = new PromptBuilder();
                 builder.StartSentence();
@@ -47,13 +61,14 @@ namespace ClownCrew.GitBitch.Client.Agents
                 }
             });
 
+            task.Start();
+
             await task;
-            return actualPhrase;
         }
 
         public async Task<Answer<T>> AskAsync<T>(string question, List<QuestionAnswerAlternative<T>> alternatives, int millisecondsTimeout = 3000)
         {
-            var qa = new QuestionAgent(this);
+            var qa = new QuestionAgent(this, _settingAgent);
             return await qa.AskAsync(question, alternatives, millisecondsTimeout);
         }
     }
