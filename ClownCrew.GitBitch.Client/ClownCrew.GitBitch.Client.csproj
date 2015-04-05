@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Agents\RegistryRepository.cs" />
     <Compile Include="Commands\Application\ApplicationCommands.cs" />
     <Compile Include="Commands\Application\CloseCommand.cs" />
     <Compile Include="Agents\CommandAgent.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Interfaces\IGitRepoAgent.cs" />
     <Compile Include="Interfaces\IGitRepository.cs" />
     <Compile Include="Interfaces\IQuestionAgent.cs" />
+    <Compile Include="Interfaces\IRegistryRepository.cs" />
     <Compile Include="Interfaces\IRepositoryBusines.cs" />
     <Compile Include="Interfaces\ISettingAgent.cs" />
     <Compile Include="Interfaces\ITalkAgent.cs" />
@@ -104,6 +106,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\RegistryHKey.cs" />
     <Compile Include="Interfaces\SayEventArgs.cs" />
     <Compile Include="Model\Answer.cs" />
     <Compile Include="Model\QuestionAnswerAlternative.cs" />

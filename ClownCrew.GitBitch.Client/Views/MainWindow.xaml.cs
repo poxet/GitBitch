@@ -21,10 +21,11 @@ namespace ClownCrew.GitBitch.Client.Views
         {
             //TODO: Move this to where it should be!
 
-            //await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
+            var bitchName = CompositeRoot.Instance.SettingAgent.GetSetting(Constants.BitchName, Constants.DefaultBitchName);
+            await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! this is git bitch alfa. My name is " + bitchName + " what can I help you with?");
 
             //TODO: Do this first time only
-            //await SetBitchNameAsync();
+            await SetBitchNameAsync();
 
             //TODO: Add application commands, like quit.
 
@@ -68,14 +69,14 @@ namespace ClownCrew.GitBitch.Client.Views
 
         private static async Task SetBitchNameAsync()
         {
-            //TODO: Check if a name has been assigned
+            if (CompositeRoot.Instance.SettingAgent.HasSetting(Constants.BitchName))
+                return;
+
             //TODO: Make it possible to manually enter names
 
-            string[] names;
+            var names = new List<string> { Constants.DefaultBitchName, "Ivona", "Astra", "Zira" };
             if (System.IO.File.Exists("Names.txt")) 
-                names = System.IO.File.ReadAllLines("Names.txt");
-            else 
-                names = new[] { Constants.DefaultBitchName, "Ivona", "Astra", "Zira" };
+                names.AddRange(System.IO.File.ReadAllLines("Names.txt"));
 
             var response = new Answer<bool>(false);
             var bitchName = new Answer<string>(names.First());

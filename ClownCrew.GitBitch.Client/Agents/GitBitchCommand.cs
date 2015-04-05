@@ -16,7 +16,9 @@ namespace ClownCrew.GitBitch.Client.Agents
         protected GitBitchCommand(ISettingAgent settingAgent, string name, string[] phrases = null)
         {
             _name = name;
-            _greeting = settingAgent.GetSetting("Greeting", new Tuple<string, bool>("please", false));
+            var greetingName = settingAgent.GetSetting(Constants.Greeting, Constants.DefaultGreeting);
+            var requireGreeting = settingAgent.GetSetting(Constants.RequireGreeting, false);
+            _greeting = new Tuple<string, bool>(greetingName, requireGreeting);
 
             var bitchName = settingAgent.GetSetting(Constants.BitchName, Constants.DefaultBitchName);
             var requireBitchName = settingAgent.GetSetting(Constants.RequireBitchName, true);
