@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Agents;
@@ -23,7 +22,7 @@ namespace ClownCrew.GitBitch.Client.Views
             //await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
 
             //TODO: Do this first time only
-            //await SetBitchNameAsync();
+            await SetBitchNameAsync();
 
             //TODO: Add application commands, like quit.
 
@@ -67,9 +66,14 @@ namespace ClownCrew.GitBitch.Client.Views
         private static async Task SetBitchNameAsync()
         {
             //TODO: Check if a name has been assigned
-            //TODO: Have many many names to choose between
             //TODO: Make it possible to manually enter names
-            var names = new List<string> { Constants.DefaultBitchName, "Ivona", "Astra", "Zira" };
+
+            string[] names;
+            if (System.IO.File.Exists("Names.txt")) 
+                names = System.IO.File.ReadAllLines("Names.txt");
+            else 
+                names = new[] { Constants.DefaultBitchName, "Ivona", "Astra", "Zira" };
+
             var response = new Answer<bool>(false);
             var bitchName = new Answer<string>(names.First());
             while (!response.Response)
@@ -80,7 +84,10 @@ namespace ClownCrew.GitBitch.Client.Views
 
             await CompositeRoot.Instance.TalkAgent.SayAsync(string.Format("Allright, {0} it is.", bitchName.Response));
 
-            CompositeRoot.Instance.SettingAgent.SetSetting("BitchName", new Tuple<string, bool>(bitchName.Response, true));
+            //TODO: When the name changes, the phrases needs to be re-assigned so they work with the new name.
+            //TODO: The text console output should reflect the new name.
+
+            CompositeRoot.Instance.SettingAgent.SetSetting(Constants.BitchName, bitchName.Response);
         }
     }
 }
