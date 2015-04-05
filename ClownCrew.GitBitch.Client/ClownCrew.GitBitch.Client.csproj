@@ -66,23 +66,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Commands\Application\ApplicationCommands.cs" />
+    <Compile Include="Commands\Application\CloseCommand.cs" />
     <Compile Include="Agents\CommandAgent.cs" />
     <Compile Include="Agents\Constants.cs" />
     <Compile Include="Agents\DataRepository.cs" />
     <Compile Include="Agents\GitBitchCommand.cs" />
     <Compile Include="Agents\GitBitchCommands.cs" />
-    <Compile Include="Agents\GitBitchOpenCommand.cs" />
-    <Compile Include="Agents\GitBitchScanCommand.cs" />
+    <Compile Include="Commands\Git\GitBitchOpenCommand.cs" />
+    <Compile Include="Commands\Git\GitBitchScanCommand.cs" />
     <Compile Include="Agents\GitRepoAgent.cs" />
     <Compile Include="Agents\GitRepository.cs" />
     <Compile Include="Agents\HeardSomethingEventArgs.cs" />
+    <Compile Include="Commands\Application\HelpCommand.cs" />
     <Compile Include="Agents\ListenerAgent.cs" />
     <Compile Include="Agents\QuestionAgent.cs" />
     <Compile Include="Agents\RegisterPhraseEventArgs.cs" />
     <Compile Include="Agents\RepositoryAddedEventArgs.cs" />
     <Compile Include="Agents\RepositoryBusines.cs" />
     <Compile Include="Agents\SettingAgent.cs" />
-    <Compile Include="Agents\WindowsCommands.cs" />
+    <Compile Include="Commands\Windows\WindowsCommands.cs" />
     <Compile Include="CompositeRoot.cs" />
     <Compile Include="Interfaces\ICommandAgent.cs" />
     <Compile Include="Interfaces\IDataRepository.cs" />
@@ -143,6 +146,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

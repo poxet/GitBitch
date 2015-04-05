@@ -16,6 +16,7 @@ namespace ClownCrew.GitBitch.Client
         }
 
         public ITalkAgent TalkAgent { get { return _container.Resolve<ITalkAgent>(); } }
+        public IQuestionAgent QuestionAgent { get { return _container.Resolve<IQuestionAgent>(); } }
         public ICommandAgent CommandAgent { get { return _container.Resolve<ICommandAgent>(); } }
         public IGitRepoAgent GitRepoAgent { get { return _container.Resolve<IGitRepoAgent>(); } }
         public IRepositoryBusines RepositoryBusines { get { return _container.Resolve<IRepositoryBusines>(); } }

@@ -47,6 +47,26 @@ namespace ClownCrew.GitBitch.Client.Agents
             }
         }
 
+        public async Task<bool> AskYesNoAsync(string question, int millisecondsTimeout = 3000)
+        {
+            var questionAnswerAlternatives = new List<QuestionAnswerAlternative<bool>>
+            {
+                new QuestionAnswerAlternative<bool>
+                {
+                    Phrases = new List<string> { "Yes" },
+                    IsDefault = false,
+                    Response = true
+                },
+                new QuestionAnswerAlternative<bool>
+                {
+                    Phrases = new List<string> { "No" },
+                    IsDefault = true,
+                    Response = false
+                }
+            };
+            return (await AskAsync(question, questionAnswerAlternatives, millisecondsTimeout)).Response;
+        }
+
         private void ListenerAgent_HeardSomethingEvent(object sender, HeardSomethingEventArgs e)
         {
             _responsePhrase = e.Phrase;

@@ -1,14 +1,15 @@
 ﻿using System.Threading.Tasks;
+using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Interfaces;
 
-namespace ClownCrew.GitBitch.Client.Agents
+namespace ClownCrew.GitBitch.Client.Commands.Git
 {
     public class GitBitchScanCommand : GitBitchCommand
     {
         private readonly IGitRepoAgent _gitRepoAgent;
 
-        public GitBitchScanCommand(IGitRepoAgent gitRepoAgent)
-            : base("Scan", new[] { "scan" })
+        public GitBitchScanCommand(ISettingAgent settingAgent, IGitRepoAgent gitRepoAgent)
+            : base(settingAgent, "Scan", new[] { "scan" })
         {
             _gitRepoAgent = gitRepoAgent;
         }

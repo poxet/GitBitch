@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using ClownCrew.GitBitch.Client.Commands.Application;
 
 namespace ClownCrew.GitBitch.Client
 {
@@ -19,6 +21,13 @@ namespace ClownCrew.GitBitch.Client
             base.OnStartup(e);
 
             //await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
+
+            CloseCommand.CloseDownEvent += CloseDownEvent;
+        }
+
+        private void CloseDownEvent(object sender, EventArgs e)
+        {
+            Dispatcher.Invoke(Shutdown);
         }
     }
 }

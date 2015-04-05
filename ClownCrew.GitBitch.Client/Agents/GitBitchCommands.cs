@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ClownCrew.GitBitch.Client.Commands.Git;
 using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Agents
@@ -11,8 +12,8 @@ namespace ClownCrew.GitBitch.Client.Agents
         {
             _commands = new List<IGitBitchCommand>
             {
-                new GitBitchScanCommand(CompositeRoot.Instance.GitRepoAgent),
-                new GitBitchOpenCommand(CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.SettingAgent),
+                new GitBitchScanCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.GitRepoAgent),
+                new GitBitchOpenCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines),
                 //new GitBitchCommand("Status", new List<string> { "status" }),
                 //new GitBitchCommand("Commit", new List<string> { "commit" }),
                 //new GitBitchCommand("Stage", new List<string> { "stage" }),

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Agents;
+using ClownCrew.GitBitch.Client.Commands.Application;
 using ClownCrew.GitBitch.Client.Model;
 
 namespace ClownCrew.GitBitch.Client.Views
@@ -22,16 +23,17 @@ namespace ClownCrew.GitBitch.Client.Views
             //await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
 
             //TODO: Do this first time only
-            await SetBitchNameAsync();
+            //await SetBitchNameAsync();
 
             //TODO: Add application commands, like quit.
 
             //TODO: Create addons that can execut different types of commands, and that can trigger on different events and tell you what is happening
+            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new ApplicationCommands());
             //await CompositeRoot.Instance.CommandAgent.RegisterAsync(new GitBitchCommands());
             //await CompositeRoot.Instance.CommandAgent.RegisterAsync(new WindowsCommands());
 
             //TODO: Do this first time only (Or when manually triggered)
-            await ScanDrive();
+            //await ScanDrive();
         }
 
         private static async Task ScanDrive()
