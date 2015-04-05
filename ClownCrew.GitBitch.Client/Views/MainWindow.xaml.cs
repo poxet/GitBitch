@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Commands.Application;
+using ClownCrew.GitBitch.Client.Commands.Windows;
 using ClownCrew.GitBitch.Client.Model;
 
 namespace ClownCrew.GitBitch.Client.Views
@@ -30,7 +31,7 @@ namespace ClownCrew.GitBitch.Client.Views
             //TODO: Create addons that can execut different types of commands, and that can trigger on different events and tell you what is happening
             await CompositeRoot.Instance.CommandAgent.RegisterAsync(new ApplicationCommands());
             //await CompositeRoot.Instance.CommandAgent.RegisterAsync(new GitBitchCommands());
-            //await CompositeRoot.Instance.CommandAgent.RegisterAsync(new WindowsCommands());
+            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new WindowsCommands());
 
             //TODO: Do this first time only (Or when manually triggered)
             //await ScanDrive();

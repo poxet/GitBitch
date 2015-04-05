@@ -11,9 +11,9 @@ namespace ClownCrew.GitBitch.Client.Commands.Windows
         {
             _commands = new List<IGitBitchCommand>
             {
-                //new GitBitchCommand("Copy", new List<string> { "copy" }),
+                //new GenericCommand(CompositeRoot.Instance.SettingAgent, "Copy", new [] { "copy" }, () => { Clipboard.SetText("Hello, clipboard"); }),
                 //new GitBitchCommand("Paste", new List<string> { "paste" }),
-                //new GitBitchCommand("Find", new List<string> { "find" }),
+                new LockMachineCommand(CompositeRoot.Instance.SettingAgent),
             };
         }
 

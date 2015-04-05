@@ -85,6 +85,8 @@
     <Compile Include="Agents\RepositoryAddedEventArgs.cs" />
     <Compile Include="Agents\RepositoryBusines.cs" />
     <Compile Include="Agents\SettingAgent.cs" />
+    <Compile Include="Commands\GenericCommand.cs" />
+    <Compile Include="Commands\Windows\LockMachineCommand.cs" />
     <Compile Include="Commands\Windows\WindowsCommands.cs" />
     <Compile Include="CompositeRoot.cs" />
     <Compile Include="Interfaces\ICommandAgent.cs" />
