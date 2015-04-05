@@ -26,7 +26,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             {
                 _sre.RequestRecognizerUpdate();
                 _sre.LoadGrammar(gr);
-                _sre.SpeechRecognized += _sre_SpeechRecognized;
+                _sre.SpeechRecognized += SpeechRecognized;
                 //sre.SpeechDetected += localSR_SpeechDetected;
                 //sre.SpeechRecognitionRejected += localSR_SpeechRecognitionRejected;
                 //sre.SpeechHypothesized += localSR_SpeechHypothesized;
@@ -61,7 +61,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             }
         }
 
-        void _sre_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        private async void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             //TODO: Find the phase among choises and execute the command that is assosiated to it
             foreach (var command in _commands)
@@ -70,7 +70,7 @@ namespace ClownCrew.GitBitch.Client.Agents
                 {
                     if (string.Compare(phrase, e.Result.Text, StringComparison.InvariantCultureIgnoreCase) == 0)
                     {
-                        command.Execute();
+                        await command.ExecuteAsync();
                     }
                 }
             }

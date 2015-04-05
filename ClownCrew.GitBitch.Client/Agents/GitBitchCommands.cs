@@ -11,7 +11,8 @@ namespace ClownCrew.GitBitch.Client.Agents
         {
             _commands = new List<IGitBitchCommand>
             {
-                new GitBitchOpenCommand(CompositeRoot.Instance.RepositoryBusines,CompositeRoot.Instance.SettingAgent),
+                new GitBitchScanCommand(CompositeRoot.Instance.GitRepoAgent),
+                new GitBitchOpenCommand(CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.SettingAgent),
                 //new GitBitchCommand("Status", new List<string> { "status" }),
                 //new GitBitchCommand("Commit", new List<string> { "commit" }),
                 //new GitBitchCommand("Stage", new List<string> { "stage" }),

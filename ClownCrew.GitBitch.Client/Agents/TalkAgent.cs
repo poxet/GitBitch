@@ -7,11 +7,6 @@ using ClownCrew.GitBitch.Client.Model;
 
 namespace ClownCrew.GitBitch.Client.Agents
 {
-    public static class Constants
-    {
-        public static string DefaultBitchName = "Bitch";
-    }
-
     public class TalkAgent : ITalkAgent
     {
         private readonly ISettingAgent _settingAgent;

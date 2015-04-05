@@ -17,6 +17,8 @@ namespace ClownCrew.GitBitch.Client
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            //await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
         }
     }
 }

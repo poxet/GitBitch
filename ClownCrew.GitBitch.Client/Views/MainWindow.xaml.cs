@@ -18,19 +18,50 @@ namespace ClownCrew.GitBitch.Client.Views
 
         private async void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            //TODO: Move this to where it should be!
+
+            //await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
+
+            //TODO: Do this first time only
             //await SetBitchNameAsync();
 
-            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new GitBitchCommands());
-            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new WindowsCommands());
-            
-            await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
+            //TODO: Add application commands, like quit.
 
-            //TODO: Check if the application knows of any repo.
-            //var response = await CompositeRoot.Instance.TalkAgent.AskAsync("Do you want me to scan your drives for git repositories?", new List<QuestionAnswerAlternative<bool>> { new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "Yes" }, Response = true }, new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "No" }, Response = false, IsDefault = true } });
-            //if (response.Response)
-            //{
+            //TODO: Create addons that can execut different types of commands, and that can trigger on different events and tell you what is happening
+            //await CompositeRoot.Instance.CommandAgent.RegisterAsync(new GitBitchCommands());
+            //await CompositeRoot.Instance.CommandAgent.RegisterAsync(new WindowsCommands());
+
+            //TODO: Do this first time only (Or when manually triggered)
+            await ScanDrive();
+        }
+
+        private static async Task ScanDrive()
+        {
+            var questionAnswerAlternatives = new List<QuestionAnswerAlternative<bool>>
+            {
+                new QuestionAnswerAlternative<bool>
+                {
+                    Phrases = new List<string> { "Yes" },
+                    Response = true
+                },
+                new QuestionAnswerAlternative<bool>
+                {
+                    Phrases = new List<string> { "No" },
+                    Response = false,
+                    IsDefault = true
+                }
+            };
+
+            var response = await CompositeRoot.Instance.TalkAgent.AskAsync("Do you want me to scan your drives for git repositories?", questionAnswerAlternatives);
+            if (response.Response)
+            {
+                await CompositeRoot.Instance.TalkAgent.SayAsync("Starting to scan now.");
                 await CompositeRoot.Instance.GitRepoAgent.SearchAsync();
-            //}
+            }
+            else
+            {
+                await CompositeRoot.Instance.TalkAgent.SayAsync("Okey. Just use the command Scan if you want me to start scanning.");
+            }
         }
 
         private static async Task SetBitchNameAsync()
@@ -46,6 +77,8 @@ namespace ClownCrew.GitBitch.Client.Views
                 bitchName = await CompositeRoot.Instance.TalkAgent.AskAsync("What do you want my name to be?", names.Select(x => new QuestionAnswerAlternative<string> { Phrases = new List<string> { x }, Response = x }).ToList(), 5000);
                 response = await CompositeRoot.Instance.TalkAgent.AskAsync(string.Format("So you want my name to be {0}?", bitchName.Response), new List<QuestionAnswerAlternative<bool>> { new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "Yes" }, Response = true }, new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "No" }, Response = false, IsDefault = true } });
             }
+
+            await CompositeRoot.Instance.TalkAgent.SayAsync(string.Format("Allright, {0} it is.", bitchName.Response));
 
             CompositeRoot.Instance.SettingAgent.SetSetting("BitchName", new Tuple<string, bool>(bitchName.Response, true));
         }

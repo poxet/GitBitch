@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Agents
@@ -51,7 +52,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             AddPhrases(actualPhrases.ToArray());
         }
 
-        public override void Execute()
+        public async override Task ExecuteAsync()
         {
             throw new NotImplementedException();
         }

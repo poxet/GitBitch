@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Agents
@@ -24,7 +25,7 @@ namespace ClownCrew.GitBitch.Client.Agents
         public event EventHandler<RegisterPhraseEventArgs> RegisterPhraseEvent;
         public IEnumerable<string> Phrases { get { return _phrases; } }
 
-        public abstract void Execute();
+        public abstract Task ExecuteAsync();
 
         protected virtual void InvokeRegisterPhraseEvent(string[] phrases)
         {

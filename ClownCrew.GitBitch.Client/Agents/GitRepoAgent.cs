@@ -18,8 +18,6 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         public async Task SearchAsync()
         {
-            await _talkAgent.SayAsync("Starting to scan your harddrives for git repositories.");
-
             var drives = System.IO.Directory.GetLogicalDrives();
             foreach (var drive in drives)
             {

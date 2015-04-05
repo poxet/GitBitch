@@ -12,7 +12,7 @@ namespace ClownCrew.GitBitch.Client.ViewModels
 
         public MainWindowViewModel()
         {
-            Phrases = new ObservableCollection<string>();
+            Phrases = new SafeObservableCollection<string>();
 
             CompositeRoot.Instance.TalkAgent.SayEvent += TalkAgent_SayEvent;
         }
@@ -22,7 +22,7 @@ namespace ClownCrew.GitBitch.Client.ViewModels
             Phrases.Add(e.Name + ": " + e.Phrase);
         }
 
-        public ObservableCollection<string> Phrases { get; private set; }
+        public SafeObservableCollection<string> Phrases { get; private set; }
 
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
