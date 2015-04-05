@@ -39,7 +39,7 @@ namespace ClownCrew.GitBitch.Client.Agents
                     if (!_responseEvent.WaitOne(millisecondsTimeout))
                     {
                         var defaultAlternative = alternatives.FirstOrDefault(x => x.IsDefault) ?? alternatives.First();
-                        response = "No answer, so " + defaultAlternative.Phrases.First() + " then.";                        
+                        //response = "No answer, so " + defaultAlternative.Phrases.First() + " then.";
                         return new Answer<T>(defaultAlternative.Response);
                     }
 
@@ -100,17 +100,15 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         public async Task<string> AskStringAsync(string question, int millisecondsTimeout = 3000)
         {
+            string resp = null;
             var task = _talkAgent.SayAsync(question);
 
-            var enterStringWindow = new EnterStringWindow();
-            enterStringWindow.Topmost = true;
+            var enterStringWindow = new EnterStringWindow { Topmost = true };
             var response = enterStringWindow.ShowDialog();
 
-            string resp = null;
-            if (response ?? false)
-                resp = ((EnterStringViewModel)enterStringWindow.DataContext).StringValue;
-
+            if (response ?? false) resp = ((EnterStringViewModel) enterStringWindow.DataContext).StringValue;
             await task;
+
             return resp;
         }
 

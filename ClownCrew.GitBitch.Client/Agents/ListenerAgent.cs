@@ -18,11 +18,19 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         private readonly SpeechRecognitionEngine _sre;
 
-        public ListenerAgent(IEnumerable<QuestionAnswerAlternative<T>> alternatives)
+        public ListenerAgent(IEnumerable<QuestionAnswerAlternative<T>> alternatives = null)
         {
-            var choices = new Choices();
-            choices.Add(alternatives.SelectMany(x => x.Phrases).ToArray());
-            var gr = new Grammar(new GrammarBuilder(choices));
+            Grammar gr;
+            if (alternatives != null)
+            {
+                var choices = new Choices();
+                choices.Add(alternatives.SelectMany(x => x.Phrases).ToArray());
+                gr = new Grammar(new GrammarBuilder(choices));
+            }
+            else
+            {
+                gr = new DictationGrammar();
+            }
 
             _sre = new SpeechRecognitionEngine();
             _sre.LoadGrammar(gr);
