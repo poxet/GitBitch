@@ -31,5 +31,11 @@ namespace ClownCrew.GitBitch.Client.Agents
         {
             _selectedRepositoryName = name;
         }
+
+        public string GetSelectedPath()
+        {
+            //TODO: Get the path of the selected repo
+            return @"C:\Dev\ClownCrew\GitBitch";
+        }
     }
 }

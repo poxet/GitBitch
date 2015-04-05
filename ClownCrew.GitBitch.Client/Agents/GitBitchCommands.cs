@@ -13,14 +13,14 @@ namespace ClownCrew.GitBitch.Client.Agents
             _commands = new List<IGitBitchCommand>
             {
                 //new GitBitchScanCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.GitRepoAgent),
-                new GitBitchOpenCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.QuestionAgent, CompositeRoot.Instance.TalkAgent),
-                new GitBitchSelectCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines),
-                //new GitBitchCommand("Status", new List<string> { "status" }),
-                //new GitBitchCommand("Commit", new List<string> { "commit" }),
-                //new GitBitchCommand("Stage", new List<string> { "stage" }),
-                //new GitBitchCommand("Reset", new List<string> { "reset" }),
-                //new GitBitchCommand("Stash", new List<string> { "stash" }),
-                //new GitBitchCommand("Pop", new List<string> { "pop" }),
+                new GitOpenCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.QuestionAgent, CompositeRoot.Instance.TalkAgent),
+                new GitSelectCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines),
+                new GitStatusCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent)
+                //Commit
+                //Stage
+                //Reset
+                //Stash
+                //Pop
             };
         }
 

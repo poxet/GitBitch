@@ -8,5 +8,6 @@ namespace ClownCrew.GitBitch.Client.Interfaces
         event EventHandler<RepositoryAddedEventArgs> RepositoryAddedEvent;
         void Add(string name, string path);
         void Select(string name);
+        string GetSelectedPath();
     }
 }

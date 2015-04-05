@@ -39,10 +39,7 @@ namespace ClownCrew.GitBitch.Client.Agents
 
             var value = key.GetValue(keyName);
             if (value == null)
-            {
-                //if (defaultValue == null) throw new InvalidOperationException(string.Format("Cannot find setting for registry path {0} and key {1} and there is no default value provided.", path, keyName));
                 return defaultValue;
-            }
 
             return (T)value;
         }

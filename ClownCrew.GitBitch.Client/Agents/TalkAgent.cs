@@ -24,13 +24,6 @@ namespace ClownCrew.GitBitch.Client.Agents
                 handler(null, new SayEventArgs(name, phrase));
         }
 
-        //public string StartSay(string phrase)
-        //{
-        //    var actualPhrase = phrase;
-        //    DoSay(actualPhrase);
-        //    return actualPhrase;
-        //}
-
         public async Task<string> SayAsync(string phrase)
         {
             var actualPhrase = phrase;

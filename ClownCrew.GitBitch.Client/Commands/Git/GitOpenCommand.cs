@@ -4,13 +4,13 @@ using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Commands.Git
 {
-    public class GitBitchOpenCommand : GitBitchCommand
+    public class GitOpenCommand : GitBitchCommand
     {
         private readonly IRepositoryBusines _repositoryBusiness;
         private readonly IQuestionAgent _questionAgent;
         private readonly ITalkAgent _talkAgent;
 
-        public GitBitchOpenCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, IQuestionAgent questionAgent, ITalkAgent talkAgent)
+        public GitOpenCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, IQuestionAgent questionAgent, ITalkAgent talkAgent)
             : base(settingAgent, "Open", new[] { "open repo", "open repository" })
         {
             _repositoryBusiness = repositoryBusiness;
