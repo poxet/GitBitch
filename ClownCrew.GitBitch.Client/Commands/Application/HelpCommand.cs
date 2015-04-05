@@ -17,14 +17,13 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
             _commandAgent = commandAgent;
         }
 
-        public override async Task ExecuteAsync()
+        public override async Task ExecuteAsync(string phrase)
         {
             //TODO: Check the settings to se how you should address the assestent. The help should reclect how you talk to her.
             await _talkAgent.SayAsync("When you talk to me you should always say my name at the beginning or the end of the sentence. You can also start or end the sentence with the world please.");
 
-            var commands = string.Join(", ", _commandAgent.Commands.Select(x => x.Name));
-            var pos = commands.LastIndexOf(", ");
-            commands = commands.Substring(0, pos) + " and " + commands.Substring(pos + 2);
+            var commands = _commandAgent.Commands.Select(x => x.Name).ToAndList();
+
             await _talkAgent.SayAsync("I understand the following commands. " + commands + ".");
         }
     }

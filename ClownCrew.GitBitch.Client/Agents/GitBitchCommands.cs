@@ -14,8 +14,9 @@ namespace ClownCrew.GitBitch.Client.Agents
             {
                 //new GitBitchScanCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.GitRepoAgent),
                 new GitOpenCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.QuestionAgent, CompositeRoot.Instance.TalkAgent),
-                new GitSelectCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines),
-                new GitStatusCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent)
+                new GitSelectCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent),
+                new GitStatusCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent),
+                new GitListCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.TalkAgent)
                 //Commit
                 //Stage
                 //Reset

@@ -18,7 +18,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
             _talkAgent = talkAgent;
         }
 
-        public async override Task ExecuteAsync()
+        public async override Task ExecuteAsync(string phrase)
         {
             string path = null;
             while (path == null)

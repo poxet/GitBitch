@@ -82,6 +82,7 @@
     <Compile Include="Agents\DataRepository.cs" />
     <Compile Include="Agents\GitBitchCommand.cs" />
     <Compile Include="Agents\GitBitchCommands.cs" />
+    <Compile Include="Commands\Application\StringListExtensions.cs" />
     <Compile Include="Commands\Git\GitOpenCommand.cs" />
     <Compile Include="Commands\Git\GitBitchScanCommand.cs" />
     <Compile Include="Agents\GitRepoAgent.cs" />
@@ -96,6 +97,8 @@
     <Compile Include="Agents\SettingAgent.cs" />
     <Compile Include="Commands\GenericCommand.cs" />
     <Compile Include="Commands\Git\GitSelectCommand.cs" />
+    <Compile Include="Commands\Git\GitListCommand.cs" />
+    <Compile Include="Commands\Git\GitStatusCommand.cs" />
     <Compile Include="Commands\Windows\LockMachineCommand.cs" />
     <Compile Include="Commands\Windows\WindowsCommands.cs" />
     <Compile Include="CompositeRoot.cs" />

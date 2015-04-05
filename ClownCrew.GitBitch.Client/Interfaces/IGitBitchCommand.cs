@@ -11,6 +11,7 @@ namespace ClownCrew.GitBitch.Client.Interfaces
 
         string Name { get; }
         IEnumerable<string> Phrases { get; }
-        Task ExecuteAsync();
+        Task ExecuteAsync(string key);
+        string GetKey(string phrase);
     }
 }

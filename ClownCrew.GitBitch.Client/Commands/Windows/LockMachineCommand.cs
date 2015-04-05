@@ -15,7 +15,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Windows
         {
         }
 
-        public async override Task ExecuteAsync()
+        public async override Task ExecuteAsync(string phrase)
         {
             LockWorkStation();
         }

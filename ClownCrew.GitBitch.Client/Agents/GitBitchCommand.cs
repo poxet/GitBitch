@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Interfaces;
 
@@ -12,7 +13,8 @@ namespace ClownCrew.GitBitch.Client.Agents
         private readonly string _name;
         private readonly Tuple<string, bool> _greeting;
         private readonly Tuple<string, bool> _bitchName;
-        private readonly List<string> _phrases = new List<string>();
+        //private readonly List<string> _phrases = new List<string>();        
+        private readonly Dictionary<string,List<string>> _phrases = new Dictionary<string, List<string>>();
 
         protected GitBitchCommand(ISettingAgent settingAgent, string name, string[] phrases = null)
         {
@@ -26,10 +28,10 @@ namespace ClownCrew.GitBitch.Client.Agents
             var requireBitchName = settingAgent.GetSetting(Constants.RequireBitchName, true);
             _bitchName = new Tuple<string, bool>(bitchName, requireBitchName);
 
-            AddPhrases(phrases ?? new string[] { });
+            AddPhrases(string.Empty, phrases ?? new string[] { });
         }
 
-        protected void AddPhrases(IEnumerable<string> rawPhrases)
+        protected void AddPhrases(string key, IEnumerable<string> rawPhrases)
         {
             var actualPhrases = new List<string>();
             foreach (var phrase in rawPhrases)
@@ -56,17 +58,28 @@ namespace ClownCrew.GitBitch.Client.Agents
                     actualPhrases.Add(phrase);
             }
 
-            foreach (var phrase in actualPhrases)
-                _phrases.Add(phrase);
+            _phrases.Add(key, actualPhrases);
 
             InvokeRegisterPhraseEvent(actualPhrases.ToArray());
         }
 
         public event EventHandler<RegisterPhraseEventArgs> RegisterPhraseEvent;
         public string Name { get { return _name; } }
-        public IEnumerable<string> Phrases { get { return _phrases; } }
+        public IEnumerable<string> Phrases { get { return _phrases.Values.SelectMany(x => x); } }
 
-        public abstract Task ExecuteAsync();
+        public abstract Task ExecuteAsync(string key);
+
+        public string GetKey(string phrase)
+        {
+            foreach (var k in _phrases)
+            {
+                if (k.Value.Any(y => y == phrase))
+                {
+                    return k.Key;
+                }
+            }
+            throw new InvalidOperationException("Cannot find a match for the phrase.");
+        }
 
         protected virtual void InvokeRegisterPhraseEvent(string[] phrases)
         {

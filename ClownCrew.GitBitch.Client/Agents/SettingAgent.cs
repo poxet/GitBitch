@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Agents
@@ -30,6 +31,16 @@ namespace ClownCrew.GitBitch.Client.Agents
         public T GetSetting<T>(string name, T defaultValue)
         {
             return _registryRepository.GetSetting(RegistryHKey.CurrentUser, RegistryPath, name, defaultValue);
+        }
+
+        public T GetSetting<T>(string subPath, string name, T defaultValue)
+        {
+            return _registryRepository.GetSetting(RegistryHKey.CurrentUser, RegistryPath + "\\" + subPath, name, defaultValue);
+        }
+
+        public Dictionary<string, T> GetSettings<T>(string subPath)
+        {
+            return _registryRepository.GetSettings<T>(RegistryHKey.CurrentUser, RegistryPath + "\\" + subPath);
         }
     }
 }

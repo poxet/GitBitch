@@ -15,7 +15,7 @@ namespace ClownCrew.GitBitch.Client.Commands
             _action = action;
         }
 
-        public override Task ExecuteAsync()
+        public override Task ExecuteAsync(string phrase)
         {
             return Task.Factory.StartNew(_action);
         }

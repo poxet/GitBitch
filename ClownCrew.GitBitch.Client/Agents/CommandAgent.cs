@@ -73,7 +73,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             var command = FindCommand(e);
             if (command != null)
             {
-                await command.ExecuteAsync();
+                await command.ExecuteAsync(command.GetKey(e.Result.Text));
             }
         }
 

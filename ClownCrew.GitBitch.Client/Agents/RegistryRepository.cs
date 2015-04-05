@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Agents
@@ -13,20 +14,20 @@ namespace ClownCrew.GitBitch.Client.Agents
             return (T)Convert.ChangeType(value, typeof(T));
         }
 
-        public Dictionary<T1, T2> GetSettings<T1, T2>(RegistryHKey registryHKey, string path)
+        public Dictionary<string, T> GetSettings<T>(RegistryHKey registryHKey, string path)
         {
             var key = GetKey(registryHKey, path);
             if (key == null) throw new InvalidOperationException(string.Format("Cannot get key for registry path {0}.", path));
 
             var values = key.GetValueNames();
 
-            var dict = new Dictionary<T1, T2>();
+            var dict = new Dictionary<string, T>();
 
             foreach (var value in values)
             {
                 var data = key.GetValue(value);
 
-                dict.Add(ConvertValue<T1>(value), ConvertValue<T2>(data.ToString()));
+                dict.Add(ConvertValue<string>(value), ConvertValue<T>(data.ToString()));
             }
 
             return dict;
@@ -43,6 +44,13 @@ namespace ClownCrew.GitBitch.Client.Agents
 
             return (T)value;
         }
+
+        //public List<T> GetSettings<T>(RegistryHKey registryHKey, string path)
+        //{
+        //    var key = GetKey(registryHKey, path);
+        //    if (key == null) throw new InvalidOperationException(string.Format("Cannot get key for registry path {0}.", path));
+        //    var r =key.GetSubKeyNames();
+        //}
 
         public void SetSetting<T>(RegistryHKey registryHKey, string path, string keyName, T value)
         {

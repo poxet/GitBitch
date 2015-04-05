@@ -6,12 +6,15 @@ namespace ClownCrew.GitBitch.Client.Agents
     public class RepositoryBusines : IRepositoryBusines
     {
         private readonly IDataRepository _dataRepository;
+        private readonly ISettingAgent _settingAgent;
         public event EventHandler<RepositoryAddedEventArgs> RepositoryAddedEvent;
         private string _selectedRepositoryName;
 
-        public RepositoryBusines(IDataRepository dataRepository)
+        public RepositoryBusines(IDataRepository dataRepository, ISettingAgent settingAgent)
         {
             _dataRepository = dataRepository;
+            _settingAgent = settingAgent;
+            _selectedRepositoryName = _settingAgent.GetSetting<string>("LastSelected", null);
         }
 
         protected virtual void InvokeRepositoryAddedEvent(IGitRepository gitRepository)
@@ -30,12 +33,13 @@ namespace ClownCrew.GitBitch.Client.Agents
         public void Select(string name)
         {
             _selectedRepositoryName = name;
+            _settingAgent.SetSetting("LastSelected", name);
         }
 
         public string GetSelectedPath()
         {
-            //TODO: Get the path of the selected repo
-            return @"C:\Dev\ClownCrew\GitBitch";
+            var path = _settingAgent.GetSetting<string>("Repositories", _selectedRepositoryName, null);
+            return path;
         }
     }
 }

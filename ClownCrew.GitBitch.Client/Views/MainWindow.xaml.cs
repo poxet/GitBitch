@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Commands.Application;
-using ClownCrew.GitBitch.Client.Commands.Windows;
-using ClownCrew.GitBitch.Client.Model;
 
 namespace ClownCrew.GitBitch.Client.Views
 {
@@ -71,7 +67,7 @@ namespace ClownCrew.GitBitch.Client.Views
         {
             if (CompositeRoot.Instance.SettingAgent.HasSetting(Constants.BitchName)) return;
 
-            await new ChangeNameCommand(CompositeRoot.Instance.SettingAgent).ExecuteAsync();
+            await new ChangeNameCommand(CompositeRoot.Instance.SettingAgent).ExecuteAsync(string.Empty);
         }
     }
 }
