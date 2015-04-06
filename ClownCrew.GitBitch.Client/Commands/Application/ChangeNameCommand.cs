@@ -13,7 +13,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
         {
         }
 
-        public override async Task ExecuteAsync(string phrase)
+        public override async Task ExecuteAsync(string key, string phrase)
         {
             var hasSetting = CompositeRoot.Instance.SettingAgent.HasSetting(Constants.BitchName);
             var currentName = CompositeRoot.Instance.SettingAgent.GetSetting(Constants.BitchName, Constants.DefaultBitchName);

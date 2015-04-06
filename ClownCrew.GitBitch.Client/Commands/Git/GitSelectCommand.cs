@@ -31,7 +31,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
             AddPhrases(e.GitRepository.Name, rawPhrases.Select(phrase => phrase.Replace("{RepositoryName}", e.GitRepository.Name)).ToArray());
         }
 
-        public async override Task ExecuteAsync(string key)
+        public async override Task ExecuteAsync(string key, string phrase)
         {
             _repositoryBusiness.Select(key);
             await _talkAgent.SayAsync("Repo " + key + " has been selected.");

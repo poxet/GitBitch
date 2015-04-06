@@ -16,7 +16,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
             _commandAgent = commandAgent;
         }
 
-        public override async Task ExecuteAsync(string phrase)
+        public override async Task ExecuteAsync(string key, string phrase)
         {
             //TODO: Check the settings to se how you should address the assestent. The help should reclect how you talk to her.
             await _talkAgent.SayAsync("When you talk to me you should always say my name at the beginning or the end of the sentence. You can also start or end the sentence with the world please.");

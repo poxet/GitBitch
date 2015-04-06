@@ -14,7 +14,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
             _talkAgent = talkAgent;
         }
 
-        public async override Task ExecuteAsync(string phrase)
+        public async override Task ExecuteAsync(string key, string phrase)
         {
             var repos = _settingAgent.GetSettings<string>("Repositories");
             await _talkAgent.SayAsync(string.Format("You can choose between " + repos.Keys.ToAndList() + "."));

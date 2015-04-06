@@ -30,11 +30,12 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 var line = process.StandardOutput.ReadLine();
                 if (string.IsNullOrEmpty(line))
                 {
-                    if (count)
-                    {
-                        yield return string.Format(msg, counter);
-                        count = false;
-                    }
+                    //TODO: Why was this one needed in the first place? (Had something to do with push or fetch
+                    //if (count && counter != 0)
+                    //{
+                    //    yield return string.Format(msg, counter);
+                    //    count = false;
+                    //}
 
                     continue;
                 }

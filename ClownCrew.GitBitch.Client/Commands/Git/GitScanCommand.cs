@@ -13,7 +13,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
             _gitRepoAgent = gitRepoAgent;
         }
 
-        public async override Task ExecuteAsync(string phrase)
+        public async override Task ExecuteAsync(string key, string phrase)
         {
             await CompositeRoot.Instance.TalkAgent.SayAsync("Starting to scan now.");
             await _gitRepoAgent.SearchAsync();

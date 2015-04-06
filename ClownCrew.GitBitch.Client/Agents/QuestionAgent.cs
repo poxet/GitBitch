@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Threading;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Model;
 using ClownCrew.GitBitch.Client.Model.EventArgs;

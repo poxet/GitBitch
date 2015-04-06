@@ -68,7 +68,7 @@ namespace ClownCrew.GitBitch.Client.Commands
         public string Name { get { return _name; } }
         public IEnumerable<string> Phrases { get { return _phrases.Values.SelectMany(x => x); } }
 
-        public abstract Task ExecuteAsync(string key);
+        public abstract Task ExecuteAsync(string key, string phrase);
 
         public string GetKey(string phrase)
         {

@@ -20,7 +20,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
             _questionAgent = questionAgent;
         }
 
-        public override async Task ExecuteAsync(string key)
+        public override async Task ExecuteAsync(string key, string phrase)
         {
             //TODO: Duplicate code
             var gitRepoPath = _repositoryBusiness.GetSelectedPath();

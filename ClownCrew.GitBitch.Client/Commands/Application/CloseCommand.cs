@@ -23,7 +23,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
             _talkAgent = talkAgent;
         }
 
-        public async override Task ExecuteAsync(string phrase)
+        public async override Task ExecuteAsync(string key, string phrase)
         {
             var response = await _questionAgent.AskYesNoAsync("Are you sure?");
             if (response) 

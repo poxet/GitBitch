@@ -169,7 +169,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             if (command != null)
             {
                 _eventHub.InvokeHeardSomethingEvent(Source.CommandAgent, e.Result.Text);
-                await command.ExecuteAsync(command.GetKey(e.Result.Text));
+                await command.ExecuteAsync(command.GetKey(e.Result.Text), e.Result.Text);
             }
         }
 

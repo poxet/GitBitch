@@ -54,7 +54,7 @@ namespace ClownCrew.GitBitch.Client.Views
         {
             if (CompositeRoot.Instance.SettingAgent.HasSetting(Constants.BitchName)) return;
 
-            await new ChangeNameCommand(CompositeRoot.Instance.SettingAgent).ExecuteAsync(string.Empty);
+            await new ChangeNameCommand(CompositeRoot.Instance.SettingAgent).ExecuteAsync(string.Empty, string.Empty);
         }
     }
 }
