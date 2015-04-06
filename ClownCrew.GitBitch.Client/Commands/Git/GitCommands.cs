@@ -19,12 +19,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 new GitStageCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness),
                 new GitUnstageCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness),
                 new GitResetHardCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness, CompositeRoot.Instance.QuestionAgent),
-                
-                //Commit
-                //Stage
-                //Reset
-                //Stash
-                //Pop
+                new GitPushCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness),
             };
         }
 
