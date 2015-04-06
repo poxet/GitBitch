@@ -22,7 +22,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
             var hasSetting = _settingAgent.HasSetting(Constants.BitchName);
             var currentName = _settingAgent.GetSetting(Constants.BitchName, Constants.DefaultBitchName);
 
-            var names = new List<string> { currentName, Constants.DefaultBitchName, "Ivona", "Astra", "Zira", "Leeloominai", "Leeloo", "Git" };
+            var names = GetDefaultNames(Constants.DefaultBitchName);
             if (System.IO.File.Exists("Names.txt")) names.AddRange(System.IO.File.ReadAllLines("Names.txt"));
 
             var response = new Answer<bool>(false);
@@ -36,6 +36,11 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
             _settingAgent.SetSetting(Constants.BitchName, bitchName.Response);
             await App.RegisterCommandsAsync();
             await _talkAgent.SayAsync(string.Format("Allright, {0} it is.", bitchName.Response));
+        }
+
+        public static List<string> GetDefaultNames(string defaultName)
+        {
+            return new List<string> { defaultName, "Git", "Bitch", "Ivona", "Astra", "Zira", "Leeloominai", "Leeloo", "Master", "Commander", "Mister", "Miss", "Mistress" };
         }
     }
 }

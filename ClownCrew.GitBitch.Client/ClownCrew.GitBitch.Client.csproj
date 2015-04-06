@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Speech" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -84,12 +85,14 @@
     <Compile Include="Commands\Git\GitStashPopCommand.cs" />
     <Compile Include="Commands\Git\GitUnstageCommand.cs" />
     <Compile Include="Interfaces\IGitBusiness.cs" />
+    <Compile Include="Interfaces\INotifyer.cs" />
     <Compile Include="Model\EventArgs\AudioInputStateChangedEventArgs.cs" />
     <Compile Include="Business\EventHub.cs" />
     <Compile Include="Model\EventArgs\DoneWorkingEventArgs.cs" />
     <Compile Include="Model\EventArgs\StartWorkingEventArgs.cs" />
     <Compile Include="Model\ForegroundWindow.cs" />
     <Compile Include="Model\EventArgs\AudioInputLevelChangedEventArgs.cs" />
+    <Compile Include="Notifyer.cs" />
     <Compile Include="Repositories\RegistryRepository.cs" />
     <Compile Include="Model\WindowWrapper.cs" />
     <Compile Include="Commands\Application\ApplicationCommands.cs" />
@@ -188,6 +191,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Names.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\GitBitch.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

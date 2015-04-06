@@ -26,6 +26,7 @@ namespace ClownCrew.GitBitch.Client
         public ISettingAgent SettingAgent { get { return _container.Resolve<ISettingAgent>(); } }
         public IEventHub EventHub { get { return _container.Resolve<IEventHub>(); } }
         public IGitBusiness GitBusiness { get { return _container.Resolve<IGitBusiness>(); } }
+        public INotifyer Notifyer { get { return _container.Resolve<INotifyer>(); } }
 
         private CompositeRoot()
         {
@@ -38,6 +39,7 @@ namespace ClownCrew.GitBitch.Client
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<RegistryRepository>()).WithService.DefaultInterfaces().LifestyleSingleton());
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<EventHub>()).WithService.DefaultInterfaces().LifestyleSingleton());
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<GitBusiness>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<Notifyer>()).WithService.DefaultInterfaces().LifestyleSingleton());
         }
 
         ~CompositeRoot()

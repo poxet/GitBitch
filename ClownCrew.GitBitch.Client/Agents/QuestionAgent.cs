@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -88,17 +89,29 @@ namespace ClownCrew.GitBitch.Client.Agents
             return (await AskAsync(question, questionAnswerAlternatives, millisecondsTimeout)).Response;
         }
 
+        //[STAThread]
         public async Task<string> AskFolderAsync(string question, int millisecondsTimeout = 3000)
         {
+            //System.Windows.Threading.Dispatcher dispatcher = (System.Windows.Threading.Dispatcher)d;
+
             var task = _talkAgent.SayAsync(question);
 
-            ////var strFriendlyName = AppDomain.CurrentDomain.FriendlyName;
-            ////var pro = Process.GetProcessesByName(strFriendlyName.Substring(0, strFriendlyName.LastIndexOf('.')));
+            //var strFriendlyName = AppDomain.CurrentDomain.FriendlyName;
+            //var pro = Process.GetProcessesByName(strFriendlyName.Substring(0, strFriendlyName.LastIndexOf('.')));
 
             string response = null;
 
             var dlg = new FolderBrowserDialog { ShowNewFolderButton = false, SelectedPath = _settingAgent.GetSetting<string>("LastPath", null) };
-            ////var windowWrapper = new WindowWrapper(pro[0].MainWindowHandle);
+            //var dlg2 = new EnterStringWindow();
+
+            //if (Dispatcher.CurrentDispatcher.Thread.IsBackground)
+            //{
+            //    return await Dispatcher.CurrentDispatcher.Invoke(() => AskFolderAsync(question, millisecondsTimeout));
+            //}
+
+            //Invoke((Action)(() => { saveFileDialog.ShowDialog() }));            
+
+            //var windowWrapper = new WindowWrapper(pro[0].MainWindowHandle);
             var windowWrapper = new ForegroundWindow();
             if (dlg.ShowDialog(windowWrapper) == DialogResult.OK)
             {
