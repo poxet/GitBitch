@@ -4,15 +4,15 @@ using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Commands.Git
 {
-    public class GitStashCommand : GitBitchCommand
+    public class GitStashPopCommand : GitBitchCommand
     {
         private readonly IRepositoryBusines _repositoryBusiness;
         private readonly ITalkAgent _talkAgent;
         private readonly IGitBusiness _gitBusiness;
         private readonly IQuestionAgent _questionAgent;
 
-        public GitStashCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness, IQuestionAgent questionAgent)
-            : base(settingAgent, "Stash", new[] { "stash", "stash save", "save stash", "save to stash" })
+        public GitStashPopCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness, IQuestionAgent questionAgent)
+            : base(settingAgent, "Stash", new[] { "stash pop", "pop", "pop the stash", "pop stash" })
         {
             _repositoryBusiness = repositoryBusiness;
             _talkAgent = talkAgent;
@@ -30,7 +30,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 return;
             }
 
-            var response = _gitBusiness.Shell("stash", gitRepoPath).ToArray();
+            var response = _gitBusiness.Shell("stash pop", gitRepoPath).ToArray();
             foreach (var line in response)
             {
                 await _talkAgent.SayAsync(line);

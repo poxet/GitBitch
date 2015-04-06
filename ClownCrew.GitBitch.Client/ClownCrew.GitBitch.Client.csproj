@@ -79,6 +79,7 @@
     <Compile Include="Commands\Git\GitResetHardCommand.cs" />
     <Compile Include="Commands\Git\GitStageCommand.cs" />
     <Compile Include="Commands\Git\GitStashCommand.cs" />
+    <Compile Include="Commands\Git\GitStashPopCommand.cs" />
     <Compile Include="Commands\Git\GitUnstageCommand.cs" />
     <Compile Include="Interfaces\IGitBusiness.cs" />
     <Compile Include="Model\EventArgs\AudioInputStateChangedEventArgs.cs" />
