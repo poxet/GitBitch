@@ -1,7 +1,9 @@
 ﻿using System;
 using ClownCrew.GitBitch.Client.Interfaces;
+using ClownCrew.GitBitch.Client.Model;
+using ClownCrew.GitBitch.Client.Model.EventArgs;
 
-namespace ClownCrew.GitBitch.Client.Agents
+namespace ClownCrew.GitBitch.Client.Business
 {
     public class RepositoryBusines : IRepositoryBusines
     {

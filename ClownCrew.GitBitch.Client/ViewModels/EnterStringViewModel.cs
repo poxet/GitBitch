@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using ClownCrew.GitBitch.Client.Annotations;
+using ClownCrew.GitBitch.Client.Properties;
 
 namespace ClownCrew.GitBitch.Client.ViewModels
 {
@@ -20,7 +20,7 @@ namespace ClownCrew.GitBitch.Client.ViewModels
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }

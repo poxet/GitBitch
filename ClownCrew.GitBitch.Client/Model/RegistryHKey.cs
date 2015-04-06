@@ -1,4 +1,4 @@
-﻿namespace ClownCrew.GitBitch.Client.Interfaces
+﻿namespace ClownCrew.GitBitch.Client.Model
 {
     public enum RegistryHKey { CurrentUser, LocalMachine }
 }

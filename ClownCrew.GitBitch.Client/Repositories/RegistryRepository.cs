@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ClownCrew.GitBitch.Client.Interfaces;
+using ClownCrew.GitBitch.Client.Model;
 
-namespace ClownCrew.GitBitch.Client.Agents
+namespace ClownCrew.GitBitch.Client.Repositories
 {
     public class RegistryRepository : IRegistryRepository
     {
@@ -39,24 +39,15 @@ namespace ClownCrew.GitBitch.Client.Agents
             if (key == null) throw new InvalidOperationException(string.Format("Cannot get key for registry path {0}.", path));
 
             var value = key.GetValue(keyName);
-            if (value == null)
-                return defaultValue;
+            if (value == null) return defaultValue;
 
             return (T)value;
         }
-
-        //public List<T> GetSettings<T>(RegistryHKey registryHKey, string path)
-        //{
-        //    var key = GetKey(registryHKey, path);
-        //    if (key == null) throw new InvalidOperationException(string.Format("Cannot get key for registry path {0}.", path));
-        //    var r =key.GetSubKeyNames();
-        //}
 
         public void SetSetting<T>(RegistryHKey registryHKey, string path, string keyName, T value)
         {
             if (path == null) throw new ArgumentNullException("path", string.Format("Path cannot be null when saving to registry."));
             if (keyName == null) throw new ArgumentNullException("keyName", string.Format("KeyName cannot be null when saving to registry path '{0}'.", path));
-            if (value == null) throw new ArgumentNullException("value", string.Format("Value cannot be null when saving to registry path '{0}' with key '{1}'.", path, keyName));
 
             var key = GetKey(registryHKey, path);
             if (key == null) throw new InvalidOperationException(string.Format("Cannot get key for registry path {0}.", path));
@@ -75,12 +66,10 @@ namespace ClownCrew.GitBitch.Client.Agents
         public bool HasSetting(RegistryHKey registryHKey, string path, string keyName)
         {
             var key = GetKey(registryHKey, path);
-            if (key == null)
-                return false;
+            if (key == null) return false;
 
             var value = (string)key.GetValue(keyName);
-            if (value == null)
-                return false;
+            if (value == null) return false;
 
             return true;
         }
@@ -100,15 +89,11 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         public bool IsAutoStartEnabled(RegistryHKey registryHKey, string keyName, string assemblyLocation)
         {
-            if (!HasSetting(registryHKey, AutoStartLocation, keyName))
-                return false;
+            if (!HasSetting(registryHKey, AutoStartLocation, keyName)) return false;
 
             var result = GetSetting<string>(registryHKey, AutoStartLocation, keyName, null);
             return string.Compare(result, assemblyLocation, StringComparison.InvariantCultureIgnoreCase) == 0;
         }
-
-        #region Private support methods
-
 
         private static Microsoft.Win32.RegistryKey GetKey(RegistryHKey environment, string path)
         {
@@ -127,8 +112,5 @@ namespace ClownCrew.GitBitch.Client.Agents
 
             return key;
         }
-
-
-        #endregion
     }
 }

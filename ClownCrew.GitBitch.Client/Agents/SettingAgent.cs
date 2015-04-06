@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ClownCrew.GitBitch.Client.Interfaces;
+using ClownCrew.GitBitch.Client.Model;
 
 namespace ClownCrew.GitBitch.Client.Agents
 {

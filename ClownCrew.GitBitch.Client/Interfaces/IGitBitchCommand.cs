@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ClownCrew.GitBitch.Client.Agents;
+using ClownCrew.GitBitch.Client.Model.EventArgs;
 
 namespace ClownCrew.GitBitch.Client.Interfaces
 {

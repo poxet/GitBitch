@@ -1,9 +1,8 @@
-using System;
 using ClownCrew.GitBitch.Client.Interfaces;
 
-namespace ClownCrew.GitBitch.Client.Agents
+namespace ClownCrew.GitBitch.Client.Model.EventArgs
 {
-    public class RepositoryAddedEventArgs : EventArgs
+    public class RepositoryAddedEventArgs : System.EventArgs
     {
         private readonly IGitRepository _gitRepository;
 

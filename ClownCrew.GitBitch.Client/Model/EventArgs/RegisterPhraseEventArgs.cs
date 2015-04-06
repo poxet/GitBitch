@@ -1,8 +1,6 @@
-using System;
-
-namespace ClownCrew.GitBitch.Client.Agents
+namespace ClownCrew.GitBitch.Client.Model.EventArgs
 {
-    public class RegisterPhraseEventArgs : EventArgs
+    public class RegisterPhraseEventArgs : System.EventArgs
     {
         private readonly string[] _phrases;
 

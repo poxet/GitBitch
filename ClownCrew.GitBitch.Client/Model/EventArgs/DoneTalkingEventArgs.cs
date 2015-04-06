@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace ClownCrew.GitBitch.Client.Interfaces
+namespace ClownCrew.GitBitch.Client.Model.EventArgs
 {
-    public class SayCompleteEventArgs : EventArgs
+    public class DoneTalkingEventArgs : System.EventArgs
     {
         private readonly Guid _id;
 
-        public SayCompleteEventArgs(Guid id)
+        public DoneTalkingEventArgs(Guid id)
         {
             _id = id;
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ClownCrew.GitBitch.Client.Model;
 
 namespace ClownCrew.GitBitch.Client.Interfaces
 {

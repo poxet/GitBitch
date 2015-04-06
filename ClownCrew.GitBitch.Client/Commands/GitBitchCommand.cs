@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Interfaces;
+using ClownCrew.GitBitch.Client.Model;
+using ClownCrew.GitBitch.Client.Model.EventArgs;
 
-namespace ClownCrew.GitBitch.Client.Agents
+namespace ClownCrew.GitBitch.Client.Commands
 {
     public abstract class GitBitchCommand : IGitBitchCommand
     {
-        protected readonly ISettingAgent _settingAgent;
-
         private readonly string _name;
         private readonly Tuple<string, bool> _greeting;
         private readonly Tuple<string, bool> _bitchName;
-        //private readonly List<string> _phrases = new List<string>();        
         private readonly Dictionary<string,List<string>> _phrases = new Dictionary<string, List<string>>();
+
+        //TODO: Try to not use the setting agent, use a business class instead
+        protected readonly ISettingAgent _settingAgent;
 
         protected GitBitchCommand(ISettingAgent settingAgent, string name, string[] phrases = null)
         {
@@ -78,10 +80,11 @@ namespace ClownCrew.GitBitch.Client.Agents
                     return k.Key;
                 }
             }
+
             throw new InvalidOperationException("Cannot find a match for the phrase.");
         }
 
-        protected virtual void InvokeRegisterPhraseEvent(string[] phrases)
+        private void InvokeRegisterPhraseEvent(string[] phrases)
         {
             var handler = RegisterPhraseEvent;
             if (handler != null) handler(this, new RegisterPhraseEventArgs(phrases));

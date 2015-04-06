@@ -71,30 +71,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Agents\CommandStateChangedEventArgs.cs" />
-    <Compile Include="Agents\ForegroundWindow.cs" />
-    <Compile Include="Agents\RegistryRepository.cs" />
-    <Compile Include="Agents\WindowWrapper.cs" />
+    <Compile Include="Model\EventArgs\AudioInputStateChangedEventArgs.cs" />
+    <Compile Include="Business\EventHub.cs" />
+    <Compile Include="Model\ForegroundWindow.cs" />
+    <Compile Include="Model\EventArgs\AudioInputLevelChangedEventArgs.cs" />
+    <Compile Include="Repositories\RegistryRepository.cs" />
+    <Compile Include="Model\WindowWrapper.cs" />
     <Compile Include="Commands\Application\ApplicationCommands.cs" />
     <Compile Include="Commands\Application\ChangeNameCommand.cs" />
     <Compile Include="Commands\Application\CloseCommand.cs" />
     <Compile Include="Agents\CommandAgent.cs" />
-    <Compile Include="Agents\Constants.cs" />
-    <Compile Include="Agents\DataRepository.cs" />
-    <Compile Include="Agents\GitBitchCommand.cs" />
-    <Compile Include="Agents\GitBitchCommands.cs" />
+    <Compile Include="Model\Constants.cs" />
+    <Compile Include="Repositories\DataRepository.cs" />
+    <Compile Include="Commands\GitBitchCommand.cs" />
+    <Compile Include="Commands\Git\GitCommands.cs" />
     <Compile Include="Commands\Application\StringListExtensions.cs" />
     <Compile Include="Commands\Git\GitOpenCommand.cs" />
-    <Compile Include="Commands\Git\GitBitchScanCommand.cs" />
+    <Compile Include="Commands\Git\GitScanCommand.cs" />
     <Compile Include="Agents\GitRepoAgent.cs" />
-    <Compile Include="Agents\GitRepository.cs" />
-    <Compile Include="Agents\HeardSomethingEventArgs.cs" />
+    <Compile Include="Model\GitRepository.cs" />
+    <Compile Include="Model\EventArgs\HeardSomethingEventArgs.cs" />
     <Compile Include="Commands\Application\HelpCommand.cs" />
     <Compile Include="Agents\ListenerAgent.cs" />
     <Compile Include="Agents\QuestionAgent.cs" />
-    <Compile Include="Agents\RegisterPhraseEventArgs.cs" />
-    <Compile Include="Agents\RepositoryAddedEventArgs.cs" />
-    <Compile Include="Agents\RepositoryBusines.cs" />
+    <Compile Include="Model\EventArgs\RegisterPhraseEventArgs.cs" />
+    <Compile Include="Model\EventArgs\RepositoryAddedEventArgs.cs" />
+    <Compile Include="Business\RepositoryBusines.cs" />
     <Compile Include="Agents\SettingAgent.cs" />
     <Compile Include="Commands\GenericCommand.cs" />
     <Compile Include="Commands\Git\GitSelectCommand.cs" />
@@ -103,8 +105,10 @@
     <Compile Include="Commands\Windows\LockMachineCommand.cs" />
     <Compile Include="Commands\Windows\WindowsCommands.cs" />
     <Compile Include="CompositeRoot.cs" />
+    <Compile Include="Model\EventArgs\DoneListeningEventArgs.cs" />
     <Compile Include="Interfaces\ICommandAgent.cs" />
     <Compile Include="Interfaces\IDataRepository.cs" />
+    <Compile Include="Interfaces\IEventHub.cs" />
     <Compile Include="Interfaces\IGitBitchCommand.cs" />
     <Compile Include="Interfaces\IGitBitchCommands.cs" />
     <Compile Include="Interfaces\IGitRepoAgent.cs" />
@@ -119,9 +123,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\RegistryHKey.cs" />
-    <Compile Include="Interfaces\SayCompleteEventArgs.cs" />
-    <Compile Include="Interfaces\StartSayEventArgs.cs" />
+    <Compile Include="Model\ListeningAudioState.cs" />
+    <Compile Include="Model\RegistryHKey.cs" />
+    <Compile Include="Model\EventArgs\DoneTalkingEventArgs.cs" />
+    <Compile Include="Model\Source.cs" />
+    <Compile Include="Model\EventArgs\StartListeningEventArgs.cs" />
+    <Compile Include="Model\EventArgs\StartTalkingEventArgs.cs" />
     <Compile Include="Model\Answer.cs" />
     <Compile Include="Model\QuestionAnswerAlternative.cs" />
     <Compile Include="Properties\Annotations.cs" />

@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace ClownCrew.GitBitch.Client.Agents
+namespace ClownCrew.GitBitch.Client.Model
 {
     public class WindowWrapper : IWin32Window
     {

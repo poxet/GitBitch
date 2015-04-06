@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using ClownCrew.GitBitch.Client.Interfaces;
 
-namespace ClownCrew.GitBitch.Client.Agents
+namespace ClownCrew.GitBitch.Client.Repositories
 {
     public class DataRepository : IDataRepository
     {

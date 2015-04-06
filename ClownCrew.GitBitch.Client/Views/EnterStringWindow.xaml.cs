@@ -2,7 +2,7 @@
 
 namespace ClownCrew.GitBitch.Client.Views
 {
-    public partial class EnterStringWindow : Window
+    public partial class EnterStringWindow
     {
         public EnterStringWindow()
         {

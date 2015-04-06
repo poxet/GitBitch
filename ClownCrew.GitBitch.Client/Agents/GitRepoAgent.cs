@@ -43,10 +43,6 @@ namespace ClownCrew.GitBitch.Client.Agents
             {
                 yield break;
             }
-            catch (Exception exception)
-            {
-                throw;
-            }
 
             foreach (var directory in directories)
             {

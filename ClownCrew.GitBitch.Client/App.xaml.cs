@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
-using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Commands.Application;
+using ClownCrew.GitBitch.Client.Commands.Git;
 using ClownCrew.GitBitch.Client.Commands.Windows;
 
 namespace ClownCrew.GitBitch.Client
@@ -38,7 +38,7 @@ namespace ClownCrew.GitBitch.Client
             await CompositeRoot.Instance.CommandAgent.ClrearAsync();
             await CompositeRoot.Instance.CommandAgent.RegisterAsync(new ApplicationCommands());
             await CompositeRoot.Instance.CommandAgent.RegisterAsync(new WindowsCommands());
-            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new GitBitchCommands());
+            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new GitCommands());
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Commands.Application;
 using ClownCrew.GitBitch.Client.Model;
 
@@ -21,10 +20,7 @@ namespace ClownCrew.GitBitch.Client.Views
             await SetBitchNameAsync();
             await App.RegisterCommands();
             await Greeting();
-            //if (!await ScanDrive())
-            {
-                await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");
-            }
+            await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");
         }
 
         private static async Task Greeting()
@@ -53,39 +49,6 @@ namespace ClownCrew.GitBitch.Client.Views
 
             CompositeRoot.Instance.SettingAgent.SetSetting("YourName", response.Response);
         }
-
-        //private static async Task<bool> ScanDrive()
-        //{
-        //    //CompositeRoot.Instance.SettingAgent.HasSetting("");
-
-        //    var questionAnswerAlternatives = new List<QuestionAnswerAlternative<bool>>
-        //    {
-        //        new QuestionAnswerAlternative<bool>
-        //        {
-        //            Phrases = new List<string> { "Yes" },
-        //            Response = true
-        //        },
-        //        new QuestionAnswerAlternative<bool>
-        //        {
-        //            Phrases = new List<string> { "No" },
-        //            Response = false,
-        //            IsDefault = true
-        //        }
-        //    };
-
-        //    var response = await CompositeRoot.Instance.TalkAgent.AskAsync("Do you want me to scan your drives for git repositories?", questionAnswerAlternatives);
-        //    if (response.Response)
-        //    {
-        //        await CompositeRoot.Instance.TalkAgent.SayAsync("Starting to scan now.");
-        //        await CompositeRoot.Instance.GitRepoAgent.SearchAsync();
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        await CompositeRoot.Instance.TalkAgent.SayAsync("Okey. Just use the command Scan if you want me to start scanning.");
-        //        return false;
-        //    }
-        //}
 
         private static async Task SetBitchNameAsync()
         {

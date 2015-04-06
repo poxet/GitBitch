@@ -11,13 +11,17 @@
     </Window.DataContext>
     
     <Grid>
-        <StackPanel>
-            <ListView ItemsSource="{Binding Phrases}">
-            </ListView>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListView Grid.Row="0"  ItemsSource="{Binding Phrases}" />
+        <StatusBar Grid.Row="1">
+            <StatusBarItem Content="{Binding Path=ListeningStatus}" />
             <StatusBar>
-                <StatusBarItem Content="{Binding Path=MainCommandListener}" />
-                <StatusBarItem Content="{Binding Path=QuestionCommandListener}"/>
+                <ProgressBar Value="{Binding Path=AudioInputLevel}" Maximum="{Binding Path=MaxAudioInputLevel}" Height="16" Width="40" ></ProgressBar>
             </StatusBar>
-        </StackPanel>
+        </StatusBar>
     </Grid>
 </Window>

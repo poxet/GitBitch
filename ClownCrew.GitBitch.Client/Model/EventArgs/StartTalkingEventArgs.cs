@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace ClownCrew.GitBitch.Client.Interfaces
+namespace ClownCrew.GitBitch.Client.Model.EventArgs
 {
-    public class StartSayEventArgs : EventArgs
+    public class StartTalkingEventArgs : System.EventArgs
     {
         private readonly Guid _id;
         private readonly string _name;
         private readonly string _phrase;
 
-        public StartSayEventArgs(Guid id, string name, string phrase)
+        public StartTalkingEventArgs(Guid id, string name, string phrase)
         {
             _id = id;
             _name = name;

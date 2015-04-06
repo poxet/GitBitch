@@ -1,4 +1,4 @@
-﻿namespace ClownCrew.GitBitch.Client.Agents
+﻿namespace ClownCrew.GitBitch.Client.Model
 {
     public static class Constants
     {

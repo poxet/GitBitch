@@ -1,5 +1,5 @@
 ﻿using System;
-using ClownCrew.GitBitch.Client.Agents;
+using ClownCrew.GitBitch.Client.Model.EventArgs;
 
 namespace ClownCrew.GitBitch.Client.Interfaces
 {

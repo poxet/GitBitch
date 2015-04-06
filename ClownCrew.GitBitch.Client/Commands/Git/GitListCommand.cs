@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Commands.Application;
 using ClownCrew.GitBitch.Client.Interfaces;
 

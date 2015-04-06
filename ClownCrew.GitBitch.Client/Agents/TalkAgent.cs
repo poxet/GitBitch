@@ -10,25 +10,12 @@ namespace ClownCrew.GitBitch.Client.Agents
     public class TalkAgent : ITalkAgent
     {
         private readonly ISettingAgent _settingAgent;
-        public event EventHandler<StartSayEventArgs> StartSayEvent;
-        public event EventHandler<SayCompleteEventArgs> SayCompleteEvent;
+        private readonly IEventHub _eventHub;
 
-        public TalkAgent(ISettingAgent settingAgent)
+        public TalkAgent(ISettingAgent settingAgent, IEventHub eventHub)
         {
             _settingAgent = settingAgent;
-        }
-
-        private void InvokeStartSayEvent(Guid id, string name, string phrase)
-        {
-            var handler = StartSayEvent;
-            if (handler != null) 
-                handler(null, new StartSayEventArgs(id, name, phrase));
-        }
-
-        protected virtual void InvokeSayCompleteEvent(Guid id)
-        {
-            var handler = SayCompleteEvent;
-            if (handler != null) handler(this, new SayCompleteEventArgs(id));
+            _eventHub = eventHub;
         }
 
         public async Task<string> SayAsync(string phrase)
@@ -42,7 +29,7 @@ namespace ClownCrew.GitBitch.Client.Agents
         {
             var bitchName = _settingAgent.GetSetting("BitchName", Constants.DefaultBitchName);
             var newGuid = Guid.NewGuid();
-            InvokeStartSayEvent(newGuid, bitchName, actualPhrase);
+            _eventHub.InvokeStartTalkingEvent(newGuid, bitchName, actualPhrase);
 
             var task = new Task(() =>
             {
@@ -62,12 +49,12 @@ namespace ClownCrew.GitBitch.Client.Agents
 
             task.Start();
             await task;
-            InvokeSayCompleteEvent(newGuid);
+            _eventHub.InvokeDoneTalkingEvent(newGuid);
         }
 
         public async Task<Answer<T>> AskAsync<T>(string question, List<QuestionAnswerAlternative<T>> alternatives, int millisecondsTimeout = 3000)
         {
-            var qa = new QuestionAgent(this, _settingAgent);
+            var qa = new QuestionAgent(this, _settingAgent, _eventHub);
             return await qa.AskAsync(question, alternatives, millisecondsTimeout);
         }
     }

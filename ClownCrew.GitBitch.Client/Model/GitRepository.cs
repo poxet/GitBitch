@@ -1,6 +1,6 @@
 using ClownCrew.GitBitch.Client.Interfaces;
 
-namespace ClownCrew.GitBitch.Client.Agents
+namespace ClownCrew.GitBitch.Client.Model
 {
     public class GitRepository : IGitRepository
     {
