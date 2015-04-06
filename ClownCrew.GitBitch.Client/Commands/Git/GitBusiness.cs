@@ -25,11 +25,19 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
             var count = false;
             var msg = string.Empty;
 
-            //process.StandardInput
             while (!process.StandardOutput.EndOfStream)
             {
                 var line = process.StandardOutput.ReadLine();
-                if (string.IsNullOrEmpty(line)) continue;
+                if (string.IsNullOrEmpty(line))
+                {
+                    if (count)
+                    {
+                        yield return string.Format(msg, counter);
+                        count = false;
+                    }
+
+                    continue;
+                }
 
                 if (line == "On branch master")
                 {
@@ -80,14 +88,14 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
             process.WaitForExit();
 
             if (process.ExitCode != 0)
-                yield return "Error number " + process.ExitCode;
+                yield return "Exited with error code " + process.ExitCode + ".";
 
             while (!process.StandardError.EndOfStream)
             {
                 var line = process.StandardError.ReadLine();
-                if (line == "fatal: Not a git repository (or any of the parent directories): .git")
-                    yield return "No git repository selected.";
-                else
+                //if (line == "fatal: Not a git repository (or any of the parent directories): .git")
+                //    yield return "No git repository selected.";
+                //else
                     yield return line;
             }
         }

@@ -21,6 +21,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 new GitResetHardCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness, CompositeRoot.Instance.QuestionAgent),
                 new GitPushCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness, CompositeRoot.Instance.QuestionAgent),
                 new GitFetchCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness, CompositeRoot.Instance.QuestionAgent),
+                new GitCommitCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness, CompositeRoot.Instance.QuestionAgent),
             };
         }
 
