@@ -12,7 +12,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
         private readonly IQuestionAgent _questionAgent;
 
         public GitStashPopCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness, IQuestionAgent questionAgent)
-            : base(settingAgent, "Stash", new[] { "stash pop", "pop", "pop the stash", "pop stash" })
+            : base(settingAgent, "Pop", new[] { "stash pop", "pop", "pop the stash", "pop stash" })
         {
             _repositoryBusiness = repositoryBusiness;
             _talkAgent = talkAgent;
@@ -22,13 +22,8 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
 
         public override async Task ExecuteAsync(string key, string phrase)
         {
-            //TODO: Duplicate code
-            var gitRepoPath = _repositoryBusiness.GetSelectedPath();
-            if (string.IsNullOrEmpty(gitRepoPath))
-            {
-                await _talkAgent.SayAsync("You need to select a repository before you can ask for status.");
-                return;
-            }
+            var gitRepoPath = await GitCommandTools.GetSelectedPathAsync(_repositoryBusiness, _talkAgent, _settingAgent);
+            if (gitRepoPath == null) return;
 
             var response = _gitBusiness.Shell("stash pop", gitRepoPath).ToArray();
             foreach (var line in response)

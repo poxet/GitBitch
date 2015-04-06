@@ -20,13 +20,8 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
 
         public override async Task ExecuteAsync(string key, string phrase)
         {
-            //TODO: Duplicate code
-            var gitRepoPath = _repositoryBusiness.GetSelectedPath();
-            if (string.IsNullOrEmpty(gitRepoPath))
-            {
-                await _talkAgent.SayAsync("You need to select a repository before you can ask for status.");
-                return;
-            }
+            var gitRepoPath = await GitCommandTools.GetSelectedPathAsync(_repositoryBusiness, _talkAgent, _settingAgent);
+            if (gitRepoPath == null) return;
 
             var before = _gitBusiness.Shell("status .", gitRepoPath).ToArray();
 

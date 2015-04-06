@@ -148,7 +148,7 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         private void LoadGrammarCompleted(object sender, LoadGrammarCompletedEventArgs e)
         {
-            Debug.WriteLine("Load grammar completed: " + e.Grammar.Name);
+            //Debug.WriteLine("Load grammar completed: " + e.Grammar.Name);
         }
 
         private void AudioSignalProblemOccurred(object sender, AudioSignalProblemOccurredEventArgs e)

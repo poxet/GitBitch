@@ -100,7 +100,7 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         private void LoadGrammarCompleted(object sender, LoadGrammarCompletedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Load grammar completed.");
+            //System.Diagnostics.Debug.WriteLine("Load grammar completed.");
         }
 
         private void EmulateRecognizeCompleted(object sender, EmulateRecognizeCompletedEventArgs e)

@@ -73,6 +73,7 @@
     </Page>
     <Compile Include="Commands\Application\AutoStartCommand.cs" />
     <Compile Include="Commands\Git\GitBusiness.cs" />
+    <Compile Include="Commands\Git\GitCommandTools.cs" />
     <Compile Include="Commands\Git\GitCommitCommand.cs" />
     <Compile Include="Commands\Git\GitFetchCommand.cs" />
     <Compile Include="Commands\Git\GitPullCommand.cs" />
