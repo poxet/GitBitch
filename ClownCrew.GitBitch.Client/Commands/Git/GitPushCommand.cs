@@ -47,6 +47,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                         {
                             await _talkAgent.SayAsync(line);
                         }
+
                         retry = true;
                     }
                 }
