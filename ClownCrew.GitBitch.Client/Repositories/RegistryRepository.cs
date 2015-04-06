@@ -60,7 +60,8 @@ namespace ClownCrew.GitBitch.Client.Repositories
             var key = GetKey(registryHKey, path);
             if (key == null) throw new InvalidOperationException(string.Format("Cannot get key for registry path {0}.", path));
 
-            key.DeleteValue(keyName);
+            if (HasSetting(registryHKey, AutoStartLocation, keyName))
+                key.DeleteValue(keyName);
         }
 
         public bool HasSetting(RegistryHKey registryHKey, string path, string keyName)

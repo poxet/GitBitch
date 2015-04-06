@@ -20,7 +20,7 @@ namespace ClownCrew.GitBitch.Client.Views
             await SetBitchNameAsync();
             await App.RegisterCommandsAsync();
             await Greeting();
-            await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");
+            await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");            
         }
 
         private static async Task Greeting()
@@ -53,7 +53,7 @@ namespace ClownCrew.GitBitch.Client.Views
         private static async Task SetBitchNameAsync()
         {
             if (CompositeRoot.Instance.SettingAgent.HasSetting(Constants.BitchName)) return;
-
+            CompositeRoot.Instance.SettingAgent.UseAutoStart(true);
             await new ChangeNameCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.TalkAgent).ExecuteAsync(string.Empty, string.Empty);
         }
     }
