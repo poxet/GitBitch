@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Speech.Recognition;
 using ClownCrew.GitBitch.Client.Model;
 using ClownCrew.GitBitch.Client.Model.EventArgs;
 
@@ -15,7 +14,7 @@ namespace ClownCrew.GitBitch.Client.Interfaces
         event EventHandler<StartListeningEventArgs> StartListeningEvent;
         event EventHandler<DoneListeningEventArgs> DoneListeningEvent;
         void InvokeAudioInputLevelChangedEvent(Source source, int audioLevel);
-        void InvokeAudioInputStateChangedEvent(Source source, AudioState listeningAudioState);
+        void InvokeAudioInputStateChangedEvent(Source source, ListeningAudioState listeningAudioState);
         void InvokeHeardSomethingEvent(Source source, string phrase);
         void InvokeStartTalkingEvent(Guid talkId, string bitchName, string phrase);
         void InvokeDoneTalkingEvent(Guid talkId);

@@ -17,7 +17,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
         }
 
         public CloseCommand(ISettingAgent settingAgent, IQuestionAgent questionAgent, ITalkAgent talkAgent)
-            : base(settingAgent, "Close", new[] { "close", "exit", "quit" })
+            : base(settingAgent, "Close", new[] { "close", "exit", "quit", "bye", "goodbye", "stop" })
         {
             _questionAgent = questionAgent;
             _talkAgent = talkAgent;

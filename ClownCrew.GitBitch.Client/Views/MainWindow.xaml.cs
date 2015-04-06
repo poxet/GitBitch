@@ -18,7 +18,7 @@ namespace ClownCrew.GitBitch.Client.Views
         private async void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             await SetBitchNameAsync();
-            await App.RegisterCommands();
+            await App.RegisterCommandsAsync();
             await Greeting();
             await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");
         }

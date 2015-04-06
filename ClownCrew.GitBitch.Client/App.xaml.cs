@@ -19,11 +19,11 @@ namespace ClownCrew.GitBitch.Client
             CompositeRoot.Instance.TalkAgent.SayAsync("Oups, now we have problems! " + e.Exception.Message);
         }
 
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            //await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
+            ////await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! I'm git bitch alfa. You didn't think that my first words would be, Dada, or something stupid like that, did you?");
 
             CloseCommand.CloseDownEvent += CloseDownEvent;
         }
@@ -33,12 +33,15 @@ namespace ClownCrew.GitBitch.Client
             Dispatcher.Invoke(Shutdown);
         }
 
-        public static async Task RegisterCommands()
+        public static async Task RegisterCommandsAsync()
         {
-            await CompositeRoot.Instance.CommandAgent.ClrearAsync();
-            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new ApplicationCommands());
-            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new WindowsCommands());
-            await CompositeRoot.Instance.CommandAgent.RegisterAsync(new GitCommands());
+            await Task.Factory.StartNew(() =>
+            {
+                CompositeRoot.Instance.CommandAgent.ClearCommands();
+                CompositeRoot.Instance.CommandAgent.RegisterCommands(new ApplicationCommands());
+                CompositeRoot.Instance.CommandAgent.RegisterCommands(new WindowsCommands());
+                CompositeRoot.Instance.CommandAgent.RegisterCommands(new GitCommands());
+            });
         }
     }
 }

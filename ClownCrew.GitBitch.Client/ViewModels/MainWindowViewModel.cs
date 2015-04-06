@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using ClownCrew.GitBitch.Client.Agents;
-using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Model;
 using ClownCrew.GitBitch.Client.Model.EventArgs;
 using ClownCrew.GitBitch.Client.Properties;
@@ -13,6 +11,7 @@ namespace ClownCrew.GitBitch.Client.ViewModels
         private int _audioInputLevel;
         private int _maxAudioInputLevel = 10;
         private string _listeningStatus;
+        private ListeningAudioState _listeningAudioState;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -27,7 +26,7 @@ namespace ClownCrew.GitBitch.Client.ViewModels
             CompositeRoot.Instance.EventHub.HeardSomethingEvent += EventHub_HeardSomethingEvent;
         }
 
-        void EventHub_DoneTalkingEvent(object sender, DoneTalkingEventArgs e)
+        private void EventHub_DoneTalkingEvent(object sender, DoneTalkingEventArgs e)
         {
             //TODO: Change the color of stuff that was already said
         }
@@ -45,7 +44,7 @@ namespace ClownCrew.GitBitch.Client.ViewModels
         private void EventHub_AudioInputStateChangedEvent(object sender, AudioInputStateChangedEventArgs e)
         {
             ListeningStatus = e.Source + " is " + e.ListeningAudioState;
-            if (e.ListeningAudioState == ListeningAudioState.NotListening) AudioInputLevel = 0;
+            _listeningAudioState = e.ListeningAudioState;
         }
 
         private void CommandAgentAudioInputLevelChangedEvent(object sender, AudioInputLevelChangedEventArgs e)
@@ -60,9 +59,17 @@ namespace ClownCrew.GitBitch.Client.ViewModels
             get { return _audioInputLevel; }
             set
             {
-                if (_audioInputLevel > MaxAudioInputLevel) MaxAudioInputLevel = _audioInputLevel;
-                _audioInputLevel = value;
-                OnPropertyChanged();
+                if (_listeningAudioState == ListeningAudioState.NotListening)
+                    value = 0;
+
+                if (_audioInputLevel > MaxAudioInputLevel)
+                    MaxAudioInputLevel = _audioInputLevel;
+
+                if (_audioInputLevel != value)
+                {
+                    _audioInputLevel = value;
+                    OnPropertyChanged();
+                }
             }
         }
 

@@ -28,15 +28,10 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
                 bitchName = await CompositeRoot.Instance.TalkAgent.AskAsync("What do you want my name to be?", names.Select(x => new QuestionAnswerAlternative<string> { Phrases = new List<string> { x }, Response = x }).ToList(), 5000);
                 response = await CompositeRoot.Instance.TalkAgent.AskAsync(string.Format("So you want my name to be {0}?", bitchName.Response), new List<QuestionAnswerAlternative<bool>> { new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "Yes" }, Response = true, IsDefault = hasSetting }, new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "No" }, Response = false, IsDefault = !hasSetting } });
             }
-
-            await CompositeRoot.Instance.TalkAgent.SayAsync(string.Format("Allright, {0} it is.", bitchName.Response));
-
-            //TODO: When the name changes, the phrases needs to be re-assigned so they work with the new name.
-            //TODO: The text console output should reflect the new name.
-
+            
             CompositeRoot.Instance.SettingAgent.SetSetting(Constants.BitchName, bitchName.Response);
-
-            await App.RegisterCommands();
+            await App.RegisterCommandsAsync();
+            await CompositeRoot.Instance.TalkAgent.SayAsync(string.Format("Allright, {0} it is.", bitchName.Response));
         }
     }
 }

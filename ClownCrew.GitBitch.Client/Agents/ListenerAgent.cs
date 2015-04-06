@@ -12,6 +12,7 @@ namespace ClownCrew.GitBitch.Client.Agents
     {
         private readonly IEventHub _eventHub;
         private readonly SpeechRecognitionEngine _speechRecognitionEngine;
+        private bool _listenerActice;
 
         public event EventHandler<HeardSomethingEventArgs> HeardSomethingEvent;
 
@@ -40,9 +41,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             }
 
             _speechRecognitionEngine = new SpeechRecognitionEngine();
-            _speechRecognitionEngine.LoadGrammar(gr);
 
-            _speechRecognitionEngine.RequestRecognizerUpdate();
             _speechRecognitionEngine.SpeechRecognized += SpeechRecognized;
             _speechRecognitionEngine.SpeechDetected += SpeechDetected;
             _speechRecognitionEngine.SpeechRecognitionRejected += SpeechRecognitionRejected;
@@ -54,19 +53,34 @@ namespace ClownCrew.GitBitch.Client.Agents
             _speechRecognitionEngine.RecognizerUpdateReached += RecognizerUpdateReached;
             _speechRecognitionEngine.AudioLevelUpdated += AudioLevelUpdated;
             _speechRecognitionEngine.AudioSignalProblemOccurred += AudioSignalProblemOccurred;
+
+            _speechRecognitionEngine.LoadGrammar(gr);
+            _speechRecognitionEngine.RequestRecognizerUpdate();
             _speechRecognitionEngine.SetInputToDefaultAudioDevice();
+            _speechRecognitionEngine.RecognizeAsync(RecognizeMode.Single);
         }
 
         public void StartListening()
         {
-            _speechRecognitionEngine.RecognizeAsync(RecognizeMode.Single);
+            if (_listenerActice) return;
+
+            _listenerActice = true;
+            _eventHub.InvokeAudioInputStateChangedEvent(Source.ListenerAgent, ListeningAudioState.Listening);
+        }
+
+        public void StopListening()
+        {
+            if (!_listenerActice) return;
+
+            _listenerActice = false;
+            _eventHub.InvokeAudioInputStateChangedEvent(Source.ListenerAgent, ListeningAudioState.NotListening);
         }
 
         public void Dispose()
         {
             _speechRecognitionEngine.RecognizeAsyncStop();
             _speechRecognitionEngine.Dispose();
-            _eventHub.InvokeAudioInputStateChangedEvent(Source.ListenerAgent, AudioState.Stopped);
+            StopListening();
         }
 
         private void AudioLevelUpdated(object sender, AudioLevelUpdatedEventArgs e)
@@ -86,18 +100,17 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         private void LoadGrammarCompleted(object sender, LoadGrammarCompletedEventArgs e)
         {
-            throw new NotImplementedException();
+            System.Diagnostics.Debug.WriteLine("Load grammar completed.");
         }
 
         private void EmulateRecognizeCompleted(object sender, EmulateRecognizeCompletedEventArgs e)
         {
-            throw new NotImplementedException();
+            System.Diagnostics.Debug.WriteLine("Emulate recognize completed '" + e.Result.Text + "'.");
         }
 
         private void AudioStateChanged(object sender, AudioStateChangedEventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine("Audio state changed to " + e.AudioState + ".");
-            _eventHub.InvokeAudioInputStateChangedEvent(Source.ListenerAgent, e.AudioState);
+            System.Diagnostics.Debug.WriteLine("Audio state changed to " + e.AudioState + ".");
         }
 
         private void SpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)
@@ -107,6 +120,8 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         private void SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
         {
+            if (!_listenerActice) return;
+
             if (e.Result.Text != string.Empty)
             {
                 System.Diagnostics.Debug.WriteLine("Speech recognition rejected '" + e.Result.Text + "'.");
@@ -126,6 +141,8 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
+            if (!_listenerActice) return;
+
             System.Diagnostics.Debug.WriteLine("Speech recognized as '" + e.Result.Text + "'.");
             InvokeHeardSomethingEvent(Source.ListenerAgent, e.Result.Text);
         }

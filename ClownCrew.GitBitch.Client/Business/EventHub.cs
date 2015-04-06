@@ -1,5 +1,4 @@
 using System;
-using System.Speech.Recognition;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Model;
 using ClownCrew.GitBitch.Client.Model.EventArgs;
@@ -22,10 +21,8 @@ namespace ClownCrew.GitBitch.Client.Business
             if (handler != null) handler(this, new AudioInputLevelChangedEventArgs(source, audioLevel));
         }
 
-        public void InvokeAudioInputStateChangedEvent(Source source, AudioState audioState)
+        public void InvokeAudioInputStateChangedEvent(Source source, ListeningAudioState listeningAudioState)
         {
-            var listeningAudioState = GetListeningAudioState(audioState);
-
             var handler = AudioInputStateChangedEvent;
             if (handler != null) handler(this, new AudioInputStateChangedEventArgs(source, listeningAudioState));
         }
@@ -58,27 +55,6 @@ namespace ClownCrew.GitBitch.Client.Business
         {
             var handler = DoneListeningEvent;
             if (handler != null) handler(this, new DoneListeningEventArgs(listenId));
-        }
-
-        private static ListeningAudioState GetListeningAudioState(AudioState audioState)
-        {
-            ListeningAudioState listeningAudioState;
-            switch (audioState)
-            {
-                case AudioState.Silence:
-                case AudioState.Speech:
-                    listeningAudioState = ListeningAudioState.Listening;
-                    break;
-
-                case AudioState.Stopped:
-                    listeningAudioState = ListeningAudioState.NotListening;
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException("Unknown AudioState " + audioState);
-            }
-
-            return listeningAudioState;
         }
     }
 }
