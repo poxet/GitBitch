@@ -13,6 +13,8 @@ namespace ClownCrew.GitBitch.Client.Interfaces
         event EventHandler<DoneTalkingEventArgs> DoneTalkingEvent;
         event EventHandler<StartListeningEventArgs> StartListeningEvent;
         event EventHandler<DoneListeningEventArgs> DoneListeningEvent;
+        event EventHandler<StartWorkingEventArgs> StartWorkingEvent;
+        event EventHandler<DoneWorkingEventArgs> DoneWorkingEvent;
         void InvokeAudioInputLevelChangedEvent(Source source, int audioLevel);
         void InvokeAudioInputStateChangedEvent(Source source, ListeningAudioState listeningAudioState);
         void InvokeHeardSomethingEvent(Source source, string phrase);
@@ -20,5 +22,7 @@ namespace ClownCrew.GitBitch.Client.Interfaces
         void InvokeDoneTalkingEvent(Guid talkId);
         void InvokeStartListeningEvent(Guid listenId);
         void InvokeDoneListeningEvent(Guid listenId);
+        void InvokeStartWorkingEvent(Guid workId, string name);
+        void InvokeDoneWorkingEvent(Guid workId);
     }
 }

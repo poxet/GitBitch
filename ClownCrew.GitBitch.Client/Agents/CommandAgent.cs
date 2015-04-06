@@ -28,6 +28,8 @@ namespace ClownCrew.GitBitch.Client.Agents
             _eventHub.DoneTalkingEvent += EventHub_DoneTalkingEvent;
             _eventHub.StartListeningEvent += EventHub_StartListeningEvent;
             _eventHub.DoneListeningEvent += EventHub_DoneListeningEvent;
+            _eventHub.StartWorkingEvent += EventHub_StartWorkingEvent;
+            _eventHub.DoneWorkingEvent += EventHub_DoneWorkingEvent;
 
             _speechRecognitionEngine = new SpeechRecognitionEngine();
 
@@ -46,6 +48,16 @@ namespace ClownCrew.GitBitch.Client.Agents
             _speechRecognitionEngine.SetInputToDefaultAudioDevice();
 
             _eventHub.InvokeAudioInputStateChangedEvent(Source.CommandAgent, ListeningAudioState.NotListening);
+        }
+
+        private void EventHub_DoneWorkingEvent(object sender, DoneWorkingEventArgs e)
+        {
+            ResumeListening();
+        }
+
+        private void EventHub_StartWorkingEvent(object sender, StartWorkingEventArgs e)
+        {
+            PauseListening();
         }
 
         private void EventHub_DoneListeningEvent(object sender, DoneListeningEventArgs e)

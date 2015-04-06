@@ -31,7 +31,6 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
             }
 
             await _talkAgent.SayAsync("Starting to fetch.");
-
             var response = _gitBusiness.Shell("fetch", gitRepoPath).ToArray();
             if (!response.Any())
             {

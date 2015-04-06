@@ -14,6 +14,8 @@ namespace ClownCrew.GitBitch.Client.Business
         public event EventHandler<DoneTalkingEventArgs> DoneTalkingEvent;
         public event EventHandler<StartListeningEventArgs> StartListeningEvent;
         public event EventHandler<DoneListeningEventArgs> DoneListeningEvent;
+        public event EventHandler<StartWorkingEventArgs> StartWorkingEvent;
+        public event EventHandler<DoneWorkingEventArgs> DoneWorkingEvent;
 
         public virtual void InvokeAudioInputLevelChangedEvent(Source source, int audioLevel)
         {
@@ -55,6 +57,18 @@ namespace ClownCrew.GitBitch.Client.Business
         {
             var handler = DoneListeningEvent;
             if (handler != null) handler(this, new DoneListeningEventArgs(listenId));
+        }
+
+        public void InvokeStartWorkingEvent(Guid workId, string name)
+        {
+            var handler = StartWorkingEvent;
+            if (handler != null) handler(this, new StartWorkingEventArgs(workId, name));
+        }
+
+        public void InvokeDoneWorkingEvent(Guid workId)
+        {
+            var handler = DoneWorkingEvent;
+            if (handler != null) handler(this, new DoneWorkingEventArgs(workId));
         }
     }
 }
