@@ -72,6 +72,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Commands\Git\GitBusiness.cs" />
+    <Compile Include="Commands\Git\GitResetHardCommand.cs" />
     <Compile Include="Commands\Git\GitStageCommand.cs" />
     <Compile Include="Commands\Git\GitUnstageCommand.cs" />
     <Compile Include="Interfaces\IGitBusiness.cs" />

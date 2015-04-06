@@ -4,18 +4,20 @@ using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Commands.Git
 {
-    public class GitUnstageCommand : GitBitchCommand
+    public class GitResetHardCommand : GitBitchCommand
     {
         private readonly IRepositoryBusines _repositoryBusiness;
         private readonly ITalkAgent _talkAgent;
         private readonly IGitBusiness _gitBusiness;
+        private readonly IQuestionAgent _questionAgent;
 
-        public GitUnstageCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness)
-            : base(settingAgent, "Unstage", new[] { "unstage", "remove", "soft reset", "reset soft" })
+        public GitResetHardCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness, IQuestionAgent questionAgent)
+            : base(settingAgent, "Reset", new[] { "reset hard", "hard reset" })
         {
             _repositoryBusiness = repositoryBusiness;
             _talkAgent = talkAgent;
             _gitBusiness = gitBusiness;
+            _questionAgent = questionAgent;
         }
 
         public override async Task ExecuteAsync(string key)
@@ -28,18 +30,17 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 return;
             }
 
-            var before = _gitBusiness.Shell("status .", gitRepoPath).ToArray();
-
-            var response = _gitBusiness.Shell("reset HEAD .", gitRepoPath).ToArray();
-
-            if (!before.Last().Contains("files have changes"))
+            if (await _questionAgent.AskYesNoAsync("Are you sure you want to reset all changes?"))
             {
+                var response = _gitBusiness.Shell("reset --hard", gitRepoPath).ToArray();
                 foreach (var line in response)
+                {
                     await _talkAgent.SayAsync(line);
+                }
             }
             else
             {
-                await _talkAgent.SayAsync("There are no staged files.");
+                await _talkAgent.SayAsync("All your files have been left untouched.");
             }
         }
     }
