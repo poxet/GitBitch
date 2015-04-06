@@ -21,6 +21,27 @@ namespace ClownCrew.GitBitch.Client.Agents
     public class ListenerAgent
     {
         public static event EventHandler<HeardEventArgs> HeardEvent;
+        public static event EventHandler<CommandStateChangedEventArgs> StateChangedEvent;
+        public static event EventHandler<EventArgs> StartEvent;
+        public static event EventHandler<EventArgs> EndEvent;
+
+        public static void OnEndEvent()
+        {
+            var handler = EndEvent;
+            if (handler != null) handler(null, EventArgs.Empty);
+        }
+
+        public static void OnStartEvent()
+        {
+            var handler = StartEvent;
+            if (handler != null) handler(null, EventArgs.Empty);
+        }
+
+        public static void InvokeStateChangedEvent(string status)
+        {
+            EventHandler<CommandStateChangedEventArgs> handler = StateChangedEvent;
+            if (handler != null) handler(null, new CommandStateChangedEventArgs(status));
+        }
 
         public static void InvokeHeardEvent(string phrase)
         {
@@ -71,6 +92,12 @@ namespace ClownCrew.GitBitch.Client.Agents
             _sre.AudioLevelUpdated += localSR_AudioLevelUpdated;
             _sre.AudioSignalProblemOccurred += localSR_AudioSignalProblemOccurred;
             _sre.SetInputToDefaultAudioDevice();
+
+            ListenerAgent.InvokeStateChangedEvent("Question Audio state changed: N/A");
+        }
+
+        public void StartListening()
+        {
             _sre.RecognizeAsync(RecognizeMode.Single);
         }
 
@@ -78,6 +105,7 @@ namespace ClownCrew.GitBitch.Client.Agents
         {
             _sre.RecognizeAsyncStop();
             _sre.Dispose();
+            ListenerAgent.InvokeStateChangedEvent("Question Audio state changed: N/A");
         }
 
         void localSR_AudioLevelUpdated(object sender, AudioLevelUpdatedEventArgs e)
@@ -109,6 +137,7 @@ namespace ClownCrew.GitBitch.Client.Agents
         void localSR_AudioStateChanged(object sender, AudioStateChangedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Audio state changed to " + e.AudioState + ".");
+            ListenerAgent.InvokeStateChangedEvent("Question Audio state changed: " + e.AudioState);
         }
 
         void localSR_SpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)

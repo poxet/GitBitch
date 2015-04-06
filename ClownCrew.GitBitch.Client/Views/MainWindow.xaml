@@ -11,7 +11,13 @@
     </Window.DataContext>
     
     <Grid>
-        <ListView ItemsSource="{Binding Phrases}">
-        </ListView>
+        <StackPanel>
+            <ListView ItemsSource="{Binding Phrases}">
+            </ListView>
+            <StatusBar>
+                <StatusBarItem Content="{Binding Path=MainCommandListener}" />
+                <StatusBarItem Content="{Binding Path=QuestionCommandListener}"/>
+            </StatusBar>
+        </StackPanel>
     </Grid>
 </Window>

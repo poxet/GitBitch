@@ -1,15 +1,27 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Speech.Recognition;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Agents
 {
     public class CommandAgent : ICommandAgent
     {
+        public event EventHandler<CommandStateChangedEventArgs> CommandStateChangedEvent;
+
+        protected virtual void OnCommandStateChangedEvent(string status)
+        {
+            var handler = CommandStateChangedEvent;
+            if (handler != null) handler(this, new CommandStateChangedEventArgs(status));
+        }
+
+        private int _interruptCounter = 0;
         private static readonly object SyncRoot = new object();
+        private static readonly object SyncInterrupt = new object();
         private readonly ITalkAgent _talkAgent;
         private readonly List<IGitBitchCommand> _commands;
         private readonly SpeechRecognitionEngine _sre;
@@ -17,53 +29,120 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         public CommandAgent(ITalkAgent talkAgent)
         {
+            talkAgent.StartSayEvent += talkAgent_StartSayEvent;
+            talkAgent.SayCompleteEvent += talkAgent_SayCompleteEvent;
+            ListenerAgent.EndEvent += ListenerAgent_EndEvent;
+            ListenerAgent.StartEvent += ListenerAgent_StartEvent;
+
             _talkAgent = talkAgent;
             _commands = new List<IGitBitchCommand>();
 
-            ////TODO: Start to listen for commands
-            //var choices = new Choices();
-            //choices.Add("help");
-            ////choices.Add(alternatives.SelectMany(x => x.Phrases).ToArray());
-            //var gr = new Grammar(new GrammarBuilder(choices));
-
             _sre = new SpeechRecognitionEngine();
-            //try
-            //{
-            //    _sre.RequestRecognizerUpdate();
-            //    _sre.LoadGrammar(gr);
-                _sre.SpeechRecognized += SpeechRecognized;
-            //    //sre.SpeechDetected += localSR_SpeechDetected;
-            //    //sre.SpeechRecognitionRejected += localSR_SpeechRecognitionRejected;
-            //    //sre.SpeechHypothesized += localSR_SpeechHypothesized;
-            //    //sre.AudioStateChanged += localSR_AudioStateChanged;
-            //    //sre.EmulateRecognizeCompleted += localSR_EmulateRecognizeCompleted;
-            //    //sre.LoadGrammarCompleted += localSR_LoadGrammarCompleted;
-            //    //sre.RecognizeCompleted += localSR_RecognizeCompleted;
-            //    //sre.RecognizerUpdateReached += localSR_RecognizerUpdateReached;
-            //    //sre.AudioLevelUpdated += localSR_AudioLevelUpdated;
-            //    //sre.AudioSignalProblemOccurred += localSR_AudioSignalProblemOccurred;
-                _sre.SetInputToDefaultAudioDevice();
-            //    _sre.RecognizeAsync(RecognizeMode.Multiple);
+            _sre.SpeechRecognized += SpeechRecognized;
+            _sre.SpeechDetected += _sre_SpeechDetected;
+            _sre.SpeechRecognitionRejected += _sre_SpeechRecognitionRejected;
+            _sre.SpeechHypothesized += _sre_SpeechHypothesized;
+            _sre.AudioStateChanged += _sre_AudioStateChanged;
+            _sre.EmulateRecognizeCompleted += _sre_EmulateRecognizeCompleted;
+            _sre.LoadGrammarCompleted += _sre_LoadGrammarCompleted;
+            _sre.RecognizeCompleted += _sre_RecognizeCompleted;
+            _sre.RecognizerUpdateReached += _sre_RecognizerUpdateReached;
+            _sre.AudioLevelUpdated += _sre_AudioLevelUpdated;
+            _sre.AudioSignalProblemOccurred += _sre_AudioSignalProblemOccurred;
+            _sre.SetInputToDefaultAudioDevice();
+        }
 
-            //    //var actualPhrase = await _talkAgent.SayAsync(question);
+        void ListenerAgent_StartEvent(object sender, EventArgs e)
+        {
+            Pause();
+        }
 
-            //    ////TODO: Wait for input, pick default if there is no response in a while
-            //    //if (!_responseEvent.WaitOne(millisecondsTimeout))
-            //    //{
-            //    //    var defaultAlternative = alternatives.First(x => x.IsDefault);
-            //    //    var response = "No answer, so " + defaultAlternative.Phrases.First() + " then.";
-            //    //    await _talkAgent.SayAsync(response);
-            //    //    return new Answer<T>(defaultAlternative.Response);
-            //    //}
+        void ListenerAgent_EndEvent(object sender, EventArgs e)
+        {
+            Resume();
+        }
 
-            //    ////TODO: Get the selected alternative here
-            //    //throw new NotImplementedException();
-            //    //return new Tuple<string, T>(actualPhrase, alternatives.Last().Item2);
-            //}
-            //finally
-            //{
-            //    //sre.RecognizeAsyncStop();
-            //}
+        void talkAgent_SayCompleteEvent(object sender, SayCompleteEventArgs e)
+        {
+            Resume();
+        }
+
+        private void Resume()
+        {
+            lock (SyncInterrupt)
+            {
+                _interruptCounter--;
+                if (_interruptCounter == 0)
+                    _sre.RecognizeAsync(RecognizeMode.Multiple);
+            }
+        }
+
+        void talkAgent_StartSayEvent(object sender, StartSayEventArgs e)
+        {
+            Pause();
+        }
+
+        private void Pause()
+        {
+            lock (SyncInterrupt)
+            {
+                if (_interruptCounter == 0)
+                    _sre.RecognizeAsyncStop();
+                _interruptCounter++;
+            }
+        }
+
+        void _sre_SpeechDetected(object sender, SpeechDetectedEventArgs e)
+        {
+            Debug.WriteLine("Speech detected: " + e.AudioPosition + ".");
+        }
+
+        void _sre_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        {
+            Debug.WriteLine("Speech recognition rejected '" + e.Result.Text + "'.");
+        }
+
+        void _sre_SpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)
+        {
+            Debug.WriteLine("Speech hypothesized '" + e.Result.Text + "'.");
+        }
+
+        void _sre_EmulateRecognizeCompleted(object sender, EmulateRecognizeCompletedEventArgs e)
+        {
+            Debug.WriteLine("Emulate recognize completed '" + e.Result.Text + "'.");
+        }
+
+        void _sre_RecognizeCompleted(object sender, RecognizeCompletedEventArgs e)
+        {
+            if (e.Result != null)
+                Debug.WriteLine("Recognize completed '" + e.Result.Text + "'.");
+        }
+
+        void _sre_LoadGrammarCompleted(object sender, LoadGrammarCompletedEventArgs e)
+        {
+            //Debug.WriteLine("Load grammar completed: " + e.Grammar.Name);
+        }
+
+        void _sre_AudioSignalProblemOccurred(object sender, AudioSignalProblemOccurredEventArgs e)
+        {
+            Debug.WriteLine("Audio signal problem occurred: " + e.AudioSignalProblem);
+        }
+
+        void _sre_RecognizerUpdateReached(object sender, RecognizerUpdateReachedEventArgs e)
+        {
+            Debug.WriteLine("Recognizer update reached: " + e.AudioPosition + " " + e.UserToken);
+        }
+
+        void _sre_AudioLevelUpdated(object sender, AudioLevelUpdatedEventArgs e)
+        {
+            //TODO: Send theese events so that a "sound strength bar" can e displayed in the status bar.
+            //Debug.WriteLine("Audio Level Updated: " + e.AudioLevel);
+        }
+
+        void _sre_AudioStateChanged(object sender, AudioStateChangedEventArgs e)
+        {
+            Debug.WriteLine("Audio state changed: " + e.AudioState);
+            OnCommandStateChangedEvent("Audio state changed: " + e.AudioState);
         }
 
         public IEnumerable<IGitBitchCommand> Commands { get { return _commands; } }
@@ -112,7 +191,7 @@ namespace ClownCrew.GitBitch.Client.Agents
         {
             var choices = new Choices();
             choices.Add(phrases.ToArray());
-
+            
             lock (SyncRoot)
             {
                 _sre.LoadGrammarAsync(new Grammar(choices));
@@ -121,6 +200,10 @@ namespace ClownCrew.GitBitch.Client.Agents
                 {
                     _initiated = true;
                     _sre.RecognizeAsync(RecognizeMode.Multiple);
+                    //Thread.Sleep(1000);
+                    //_sre.RecognizeAsyncStop();
+                    //Thread.Sleep(1000);
+                    //_sre.RecognizeAsync(RecognizeMode.Multiple);
                 }
             }
         }

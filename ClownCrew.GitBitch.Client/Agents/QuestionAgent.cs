@@ -29,17 +29,20 @@ namespace ClownCrew.GitBitch.Client.Agents
         {
             using (var listenerAgent = new ListenerAgent<T>(alternatives))
             {
-                listenerAgent.HeardSomethingEvent += ListenerAgent_HeardSomethingEvent;                
+                listenerAgent.HeardSomethingEvent += ListenerAgent_HeardSomethingEvent;
+
+                ListenerAgent.OnStartEvent();
 
                 await _talkAgent.SayAsync(question);
+                listenerAgent.StartListening();
 
-                string response = null;
+                string defaultResponse = null;
                 var r = await Task.Factory.StartNew(() =>
                 {
                     if (!_responseEvent.WaitOne(millisecondsTimeout))
                     {
                         var defaultAlternative = alternatives.FirstOrDefault(x => x.IsDefault) ?? alternatives.First();
-                        //response = "No answer, so " + defaultAlternative.Phrases.First() + " then.";
+                        //defaultResponse = "No answer, so " + defaultAlternative.Phrases.First() + " then.";
                         return new Answer<T>(defaultAlternative.Response);
                     }
 
@@ -47,8 +50,10 @@ namespace ClownCrew.GitBitch.Client.Agents
                     return new Answer<T>(selectedAlternative.Response);
                 });
 
-                if (!string.IsNullOrEmpty(response))
-                    await _talkAgent.SayAsync(response);
+                if (!string.IsNullOrEmpty(defaultResponse))
+                    await _talkAgent.SayAsync(defaultResponse);
+
+                ListenerAgent.OnEndEvent();
 
                 return r;
             }
@@ -60,7 +65,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             {
                 new QuestionAnswerAlternative<bool>
                 {
-                    Phrases = new List<string> { "Yes" },
+                    Phrases = new List<string> { "Yes", "Sure" },
                     IsDefault = false,
                     Response = true
                 },

@@ -71,6 +71,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Agents\CommandStateChangedEventArgs.cs" />
     <Compile Include="Agents\ForegroundWindow.cs" />
     <Compile Include="Agents\RegistryRepository.cs" />
     <Compile Include="Agents\WindowWrapper.cs" />

@@ -8,6 +8,8 @@ namespace ClownCrew.GitBitch.Client.ViewModels
 {
     internal sealed class MainWindowViewModel : INotifyPropertyChanged
     {
+        private string _mainCommandListener;
+        private string _questionCommandListener;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MainWindowViewModel()
@@ -17,6 +19,19 @@ namespace ClownCrew.GitBitch.Client.ViewModels
             CompositeRoot.Instance.TalkAgent.StartSayEvent += TalkAgentStartSayEvent;
             CompositeRoot.Instance.TalkAgent.SayCompleteEvent += TalkAgent_SayCompleteEvent;
             ListenerAgent.HeardEvent += MainWindowViewModel_HeardEvent;
+
+            CompositeRoot.Instance.CommandAgent.CommandStateChangedEvent += CommandAgent_CommandStateChangedEvent;
+            ListenerAgent.StateChangedEvent += ListenerAgent_StateChangedEvent;
+        }
+
+        void ListenerAgent_StateChangedEvent(object sender, CommandStateChangedEventArgs e)
+        {
+            QuestionCommandListener = e.Status;
+        }
+
+        void CommandAgent_CommandStateChangedEvent(object sender, CommandStateChangedEventArgs e)
+        {
+            MainCommandListener = e.Status;
         }
 
         void MainWindowViewModel_HeardEvent(object sender, HeardEventArgs e)
@@ -34,6 +49,26 @@ namespace ClownCrew.GitBitch.Client.ViewModels
         }
 
         public SafeObservableCollection<string> Phrases { get; private set; }
+
+        public string QuestionCommandListener
+        {
+            get { return _questionCommandListener; }
+            set
+            {
+                _questionCommandListener = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string MainCommandListener
+        {
+            get { return _mainCommandListener; }
+            set
+            {
+                _mainCommandListener = value;
+                OnPropertyChanged();
+            }
+        }
 
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
