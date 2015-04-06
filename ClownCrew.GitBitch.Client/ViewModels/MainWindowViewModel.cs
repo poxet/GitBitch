@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Annotations;
 using ClownCrew.GitBitch.Client.Interfaces;
 
@@ -13,10 +14,21 @@ namespace ClownCrew.GitBitch.Client.ViewModels
         {
             Phrases = new SafeObservableCollection<string>();
 
-            CompositeRoot.Instance.TalkAgent.SayEvent += TalkAgent_SayEvent;
+            CompositeRoot.Instance.TalkAgent.StartSayEvent += TalkAgentStartSayEvent;
+            CompositeRoot.Instance.TalkAgent.SayCompleteEvent += TalkAgent_SayCompleteEvent;
+            ListenerAgent.HeardEvent += MainWindowViewModel_HeardEvent;
         }
 
-        private void TalkAgent_SayEvent(object sender, SayEventArgs e)
+        void MainWindowViewModel_HeardEvent(object sender, HeardEventArgs e)
+        {
+            Phrases.Add("You: " + e.Phrase);
+        }
+
+        private void TalkAgent_SayCompleteEvent(object sender, SayCompleteEventArgs e)
+        {
+        }
+
+        private void TalkAgentStartSayEvent(object sender, StartSayEventArgs e)
         {
             Phrases.Add(e.Name + ": " + e.Phrase);
         }

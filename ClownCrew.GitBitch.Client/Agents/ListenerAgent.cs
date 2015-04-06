@@ -6,10 +6,33 @@ using ClownCrew.GitBitch.Client.Model;
 
 namespace ClownCrew.GitBitch.Client.Agents
 {
+    public class HeardEventArgs : EventArgs
+    {
+        private readonly string _phrase;
+
+        public HeardEventArgs(string phrase)
+        {
+            _phrase = phrase;
+        }
+
+        public string Phrase { get { return _phrase; } }
+    }
+
+    public class ListenerAgent
+    {
+        public static event EventHandler<HeardEventArgs> HeardEvent;
+
+        public static void InvokeHeardEvent(string phrase)
+        {
+            var handler = HeardEvent;
+            if (handler != null) handler(null, new HeardEventArgs(phrase));
+        }
+    }
+
     public class ListenerAgent<T> : IDisposable
     {
         public event EventHandler<HeardSomethingEventArgs> HeardSomethingEvent;
-
+        
         protected virtual void OnHeardSomethingEvent(string phrase)
         {
             var handler = HeardSomethingEvent;
@@ -93,9 +116,13 @@ namespace ClownCrew.GitBitch.Client.Agents
             System.Diagnostics.Debug.WriteLine("Speech hypothesized '" + e.Result.Text + "'.");
         }
 
-        void localSR_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        private void localSR_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Speech recognition rejected '" + e.Result.Text + "'.");
+            if (e.Result.Text != "")
+            {
+                System.Diagnostics.Debug.WriteLine("Speech recognition rejected '" + e.Result.Text + "'.");
+                ListenerAgent.InvokeHeardEvent(e.Result.Text);
+            }
         }
 
         void localSR_SpeechDetected(object sender, SpeechDetectedEventArgs e)
@@ -111,6 +138,7 @@ namespace ClownCrew.GitBitch.Client.Agents
         void localSR_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Speech recognized as '" + e.Result.Text + "'.");
+            ListenerAgent.InvokeHeardEvent(e.Result.Text);
             OnHeardSomethingEvent(e.Result.Text);
         }
     }

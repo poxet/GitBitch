@@ -119,7 +119,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\RegistryHKey.cs" />
-    <Compile Include="Interfaces\SayEventArgs.cs" />
+    <Compile Include="Interfaces\SayCompleteEventArgs.cs" />
+    <Compile Include="Interfaces\StartSayEventArgs.cs" />
     <Compile Include="Model\Answer.cs" />
     <Compile Include="Model\QuestionAnswerAlternative.cs" />
     <Compile Include="Properties\Annotations.cs" />
