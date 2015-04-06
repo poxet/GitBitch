@@ -3,7 +3,7 @@ using ClownCrew.GitBitch.Client.Commands.Application;
 using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Commands.Git
-{
+{    
     public class GitListCommand : GitBitchCommand
     {
         private readonly ITalkAgent _talkAgent;

@@ -71,6 +71,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Commands\Git\GitBusiness.cs" />
+    <Compile Include="Commands\Git\GitStageCommand.cs" />
+    <Compile Include="Interfaces\IGitBusiness.cs" />
     <Compile Include="Model\EventArgs\AudioInputStateChangedEventArgs.cs" />
     <Compile Include="Business\EventHub.cs" />
     <Compile Include="Model\ForegroundWindow.cs" />

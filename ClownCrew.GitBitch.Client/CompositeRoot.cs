@@ -2,6 +2,7 @@
 using Castle.Windsor;
 using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Business;
+using ClownCrew.GitBitch.Client.Commands.Git;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Repositories;
 
@@ -24,6 +25,7 @@ namespace ClownCrew.GitBitch.Client
         public IRepositoryBusines RepositoryBusines { get { return _container.Resolve<IRepositoryBusines>(); } }
         public ISettingAgent SettingAgent { get { return _container.Resolve<ISettingAgent>(); } }
         public IEventHub EventHub { get { return _container.Resolve<IEventHub>(); } }
+        public IGitBusiness GitBusiness { get { return _container.Resolve<IGitBusiness>(); } }
 
         private CompositeRoot()
         {
@@ -35,6 +37,7 @@ namespace ClownCrew.GitBitch.Client
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<SettingAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<RegistryRepository>()).WithService.DefaultInterfaces().LifestyleSingleton());
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<EventHub>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<GitBusiness>()).WithService.DefaultInterfaces().LifestyleSingleton());
         }
 
         ~CompositeRoot()

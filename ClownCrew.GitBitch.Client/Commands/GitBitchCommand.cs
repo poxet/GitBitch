@@ -13,7 +13,7 @@ namespace ClownCrew.GitBitch.Client.Commands
         private readonly string _name;
         private readonly Tuple<string, bool> _greeting;
         private readonly Tuple<string, bool> _bitchName;
-        private readonly Dictionary<string,List<string>> _phrases = new Dictionary<string, List<string>>();
+        private readonly Dictionary<string, List<string>> _phrases = new Dictionary<string, List<string>>();
 
         //TODO: Try to not use the setting agent, use a business class instead
         protected readonly ISettingAgent _settingAgent;
@@ -56,8 +56,7 @@ namespace ClownCrew.GitBitch.Client.Commands
                     actualPhrases.Add(phrase + " " + _greeting.Item1);
                 }
 
-                if (!_greeting.Item2 && !_bitchName.Item2)
-                    actualPhrases.Add(phrase);
+                if (!_greeting.Item2 && !_bitchName.Item2) actualPhrases.Add(phrase);
             }
 
             _phrases.Add(key, actualPhrases);

@@ -1,16 +1,17 @@
+using System.Linq;
 using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Commands.Git
 {
-    public class GitStatusCommand : GitBitchCommand
+    public class GitStageCommand : GitBitchCommand
     {
         private readonly IRepositoryBusines _repositoryBusiness;
         private readonly ITalkAgent _talkAgent;
         private readonly IGitBusiness _gitBusiness;
 
-        public GitStatusCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness)
-            : base(settingAgent, "Status", new[] { "status" })
+        public GitStageCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness)
+            : base(settingAgent, "Stage", new[] { "stage", "add" })
         {
             _repositoryBusiness = repositoryBusiness;
             _talkAgent = talkAgent;
@@ -27,11 +28,12 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 return;
             }
 
-            var response = _gitBusiness.Shell("status", gitRepoPath);
-            foreach (var line in response)
-            {
-                await _talkAgent.SayAsync(line);
-            }
+            var before = _gitBusiness.Shell("status .", gitRepoPath).ToArray();
+            var response = _gitBusiness.Shell("add .", gitRepoPath).ToArray();
+
+            if (before.Last().Contains("files have changes"))
+                await _talkAgent.SayAsync(string.Format("{0} files have been staged.", before.Last().Split(' ')[0]));
+            else await _talkAgent.SayAsync("There are no changes to stage.");
         }
     }
 }
