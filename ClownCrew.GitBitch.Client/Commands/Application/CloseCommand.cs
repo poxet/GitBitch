@@ -10,7 +10,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
         private readonly ITalkAgent _talkAgent;
         public static event EventHandler<EventArgs> CloseDownEvent;
 
-        private static void OnCloseDownEvent()
+        private static void InvokeCloseDownEvent()
         {
             var handler = CloseDownEvent;
             if (handler != null) handler(null, EventArgs.Empty);
@@ -27,7 +27,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
         {
             var response = await _questionAgent.AskYesNoAsync("Are you sure?");
             if (response) 
-                OnCloseDownEvent();
+                InvokeCloseDownEvent();
             else
                 await _talkAgent.SayAsync("I am still here for you.");
         }

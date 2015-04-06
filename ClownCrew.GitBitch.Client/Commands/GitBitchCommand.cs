@@ -80,7 +80,7 @@ namespace ClownCrew.GitBitch.Client.Commands
                 }
             }
 
-            throw new InvalidOperationException("Cannot find a match for the phrase.");
+            throw new InvalidOperationException("Cannot find a match for the phrase " + phrase + ".");
         }
 
         private void InvokeRegisterPhraseEvent(string[] phrases)

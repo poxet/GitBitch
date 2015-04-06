@@ -10,5 +10,6 @@ namespace ClownCrew.GitBitch.Client.Interfaces
         T GetSetting<T>(string name, T defaultValue);
         T GetSetting<T>(string subPath, string name, T defaultValue);
         Dictionary<string, T> GetSettings<T>(string subPath);
+        void UseAutoStart(bool value);
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Model;
 
@@ -42,6 +43,14 @@ namespace ClownCrew.GitBitch.Client.Agents
         public Dictionary<string, T> GetSettings<T>(string subPath)
         {
             return _registryRepository.GetSettings<T>(RegistryHKey.CurrentUser, RegistryPath + "\\" + subPath);
+        }
+
+        public void UseAutoStart(bool value)
+        {
+            if (value)
+                _registryRepository.SetAutoStart(RegistryHKey.CurrentUser, "GitBitch", Assembly.GetExecutingAssembly().Location);
+            else
+                _registryRepository.RemoveAutoStart(RegistryHKey.CurrentUser, "GitBitch");
         }
     }
 }

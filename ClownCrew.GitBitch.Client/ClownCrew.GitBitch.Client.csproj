@@ -71,6 +71,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Commands\Application\AutoStartCommand.cs" />
     <Compile Include="Commands\Git\GitBusiness.cs" />
     <Compile Include="Commands\Git\GitCommitCommand.cs" />
     <Compile Include="Commands\Git\GitFetchCommand.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Interfaces;
@@ -8,15 +9,18 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
 {
     public class ChangeNameCommand : GitBitchCommand
     {
-        public ChangeNameCommand(ISettingAgent settingAgent)
+        private readonly ITalkAgent _talkAgent;
+
+        public ChangeNameCommand(ISettingAgent settingAgent, ITalkAgent talkAgent)
             : base(settingAgent, "Change name", new[] { "change name" })
         {
+            _talkAgent = talkAgent;
         }
 
         public override async Task ExecuteAsync(string key, string phrase)
         {
-            var hasSetting = CompositeRoot.Instance.SettingAgent.HasSetting(Constants.BitchName);
-            var currentName = CompositeRoot.Instance.SettingAgent.GetSetting(Constants.BitchName, Constants.DefaultBitchName);
+            var hasSetting = _settingAgent.HasSetting(Constants.BitchName);
+            var currentName = _settingAgent.GetSetting(Constants.BitchName, Constants.DefaultBitchName);
 
             var names = new List<string> { currentName, Constants.DefaultBitchName, "Ivona", "Astra", "Zira", "Leeloominai", "Leeloo", "Git" };
             if (System.IO.File.Exists("Names.txt")) names.AddRange(System.IO.File.ReadAllLines("Names.txt"));
@@ -25,13 +29,13 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
             var bitchName = new Answer<string>(names.First());
             while (!response.Response)
             {
-                bitchName = await CompositeRoot.Instance.TalkAgent.AskAsync("What do you want my name to be?", names.Select(x => new QuestionAnswerAlternative<string> { Phrases = new List<string> { x }, Response = x }).ToList(), 5000);
-                response = await CompositeRoot.Instance.TalkAgent.AskAsync(string.Format("So you want my name to be {0}?", bitchName.Response), new List<QuestionAnswerAlternative<bool>> { new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "Yes" }, Response = true, IsDefault = hasSetting }, new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "No" }, Response = false, IsDefault = !hasSetting } });
+                bitchName = await _talkAgent.AskAsync("What do you want my name to be?", names.Select(x => new QuestionAnswerAlternative<string> { Phrases = new List<string> { x }, Response = x }).ToList(), 5000);
+                response = await _talkAgent.AskAsync(string.Format("So you want my name to be {0}?", bitchName.Response), new List<QuestionAnswerAlternative<bool>> { new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "Yes" }, Response = true, IsDefault = hasSetting }, new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "No" }, Response = false, IsDefault = !hasSetting } });
             }
-            
-            CompositeRoot.Instance.SettingAgent.SetSetting(Constants.BitchName, bitchName.Response);
+
+            _settingAgent.SetSetting(Constants.BitchName, bitchName.Response);
             await App.RegisterCommandsAsync();
-            await CompositeRoot.Instance.TalkAgent.SayAsync(string.Format("Allright, {0} it is.", bitchName.Response));
+            await _talkAgent.SayAsync(string.Format("Allright, {0} it is.", bitchName.Response));
         }
     }
 }
