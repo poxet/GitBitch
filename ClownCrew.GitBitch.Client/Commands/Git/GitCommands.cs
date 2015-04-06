@@ -17,6 +17,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 new GitStatusCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness),
                 new GitListCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.TalkAgent),
                 new GitStageCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness),
+                new GitUnstageCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.RepositoryBusines, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.GitBusiness),
                 
                 //Commit
                 //Stage

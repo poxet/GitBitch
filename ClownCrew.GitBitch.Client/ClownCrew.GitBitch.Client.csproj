@@ -73,6 +73,7 @@
     </Page>
     <Compile Include="Commands\Git\GitBusiness.cs" />
     <Compile Include="Commands\Git\GitStageCommand.cs" />
+    <Compile Include="Commands\Git\GitUnstageCommand.cs" />
     <Compile Include="Interfaces\IGitBusiness.cs" />
     <Compile Include="Model\EventArgs\AudioInputStateChangedEventArgs.cs" />
     <Compile Include="Business\EventHub.cs" />
