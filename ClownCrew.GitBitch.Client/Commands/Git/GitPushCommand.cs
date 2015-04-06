@@ -9,13 +9,15 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
         private readonly IRepositoryBusines _repositoryBusiness;
         private readonly ITalkAgent _talkAgent;
         private readonly IGitBusiness _gitBusiness;
+        private readonly IQuestionAgent _questionAgent;
 
-        public GitPushCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness)
+        public GitPushCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness, IQuestionAgent questionAgent)
             : base(settingAgent, "Push", new[] { "push" })
         {
             _repositoryBusiness = repositoryBusiness;
             _talkAgent = talkAgent;
             _gitBusiness = gitBusiness;
+            _questionAgent = questionAgent;
         }
 
         public override async Task ExecuteAsync(string key)
@@ -28,9 +30,34 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 return;
             }
 
-            var response = _gitBusiness.Shell("push", gitRepoPath).ToArray();
-            foreach (var line in response)
-                await _talkAgent.SayAsync(line);
+            var retry = true;
+            while (retry)
+            {
+                retry = false;
+
+                var response = _gitBusiness.Shell("push", gitRepoPath).ToArray();
+                if (response.First().Contains("warning: push.default is unset"))
+                {
+                    //Set push mode to simple
+                    var isSetToSimple = await _questionAgent.AskYesNoAsync("The push behaviour has not been set. Is it allright if I set it to simple?");
+                    if (isSetToSimple)
+                    {
+                        var response2 = _gitBusiness.Shell("config --global push.default simple", gitRepoPath).ToArray();
+                        foreach (var line in response2)
+                        {
+                            await _talkAgent.SayAsync(line);
+                        }
+                        retry = true;
+                    }
+                }
+                else
+                {
+                    foreach (var line in response)
+                    {
+                        await _talkAgent.SayAsync(line);
+                    }
+                }
+            }
         }
     }
 }
