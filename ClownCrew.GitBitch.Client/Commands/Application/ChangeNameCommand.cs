@@ -18,7 +18,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
             var hasSetting = CompositeRoot.Instance.SettingAgent.HasSetting(Constants.BitchName);
             var currentName = CompositeRoot.Instance.SettingAgent.GetSetting(Constants.BitchName, Constants.DefaultBitchName);
 
-            var names = new List<string> { currentName, Constants.DefaultBitchName, "Ivona", "Astra", "Zira", "Leeloominai", "Leeloo" };
+            var names = new List<string> { currentName, Constants.DefaultBitchName, "Ivona", "Astra", "Zira", "Leeloominai", "Leeloo", "Git" };
             if (System.IO.File.Exists("Names.txt")) names.AddRange(System.IO.File.ReadAllLines("Names.txt"));
 
             var response = new Answer<bool>(false);

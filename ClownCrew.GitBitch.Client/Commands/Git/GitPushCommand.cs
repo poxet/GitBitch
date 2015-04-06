@@ -30,6 +30,8 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 return;
             }
 
+            await _talkAgent.SayAsync("Starting to push.");
+
             var retry = true;
             while (retry)
             {

@@ -74,6 +74,7 @@
     <Compile Include="Commands\Git\GitBusiness.cs" />
     <Compile Include="Commands\Git\GitCommitCommand.cs" />
     <Compile Include="Commands\Git\GitFetchCommand.cs" />
+    <Compile Include="Commands\Git\GitPullCommand.cs" />
     <Compile Include="Commands\Git\GitPushCommand.cs" />
     <Compile Include="Commands\Git\GitResetHardCommand.cs" />
     <Compile Include="Commands\Git\GitStageCommand.cs" />

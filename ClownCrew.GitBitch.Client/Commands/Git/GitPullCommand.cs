@@ -4,15 +4,15 @@ using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Commands.Git
 {
-    public class GitFetchCommand : GitBitchCommand
+    public class GitPullCommand : GitBitchCommand
     {
         private readonly IRepositoryBusines _repositoryBusiness;
         private readonly ITalkAgent _talkAgent;
         private readonly IGitBusiness _gitBusiness;
         private readonly IQuestionAgent _questionAgent;
 
-        public GitFetchCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness, IQuestionAgent questionAgent)
-            : base(settingAgent, "Fetch", new[] { "fetch" })
+        public GitPullCommand(ISettingAgent settingAgent, IRepositoryBusines repositoryBusiness, ITalkAgent talkAgent, IGitBusiness gitBusiness, IQuestionAgent questionAgent)
+            : base(settingAgent, "pull", new[] { "pull" })
         {
             _repositoryBusiness = repositoryBusiness;
             _talkAgent = talkAgent;
@@ -30,12 +30,12 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 return;
             }
 
-            await _talkAgent.SayAsync("Starting to fetch.");
+            await _talkAgent.SayAsync("Starting to pull.");
 
-            var response = _gitBusiness.Shell("fetch", gitRepoPath).ToArray();
+            var response = _gitBusiness.Shell("pull", gitRepoPath).ToArray();
             if (!response.Any())
             {
-                await _talkAgent.SayAsync("There is nothing to fetch from origin. Everything is up-to-date.");
+                await _talkAgent.SayAsync("There is nothing to pull from origin. Everything is up-to-date.");
             }
             else
             {
