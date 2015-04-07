@@ -34,7 +34,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
             }
 
             _settingAgent.SetSetting(Constants.BitchName, bitchName.Response);
-            await App.RegisterCommandsAsync();
+            App.RegisterCommands();
             await _talkAgent.SayAsync(string.Format("Allright, {0} it is.", bitchName.Response));
         }
 

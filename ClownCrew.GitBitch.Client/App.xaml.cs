@@ -28,7 +28,7 @@ namespace ClownCrew.GitBitch.Client
             base.OnStartup(e);
 
             await SetBitchNameAsync();
-            await RegisterCommandsAsync();
+            RegisterCommands();
             await Greeting();
             await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");
 
@@ -75,15 +75,12 @@ namespace ClownCrew.GitBitch.Client
             Dispatcher.Invoke(Shutdown);
         }
 
-        public static async Task RegisterCommandsAsync()
+        public static void RegisterCommands()
         {
-            await Task.Factory.StartNew(() =>
-            {
-                CompositeRoot.Instance.CommandAgent.ClearCommands();
-                CompositeRoot.Instance.CommandAgent.RegisterCommands(new ApplicationCommands());
-                CompositeRoot.Instance.CommandAgent.RegisterCommands(new WindowsCommands());
-                CompositeRoot.Instance.CommandAgent.RegisterCommands(new GitCommands());
-            });
+            CompositeRoot.Instance.CommandAgent.ClearCommands();
+            CompositeRoot.Instance.CommandAgent.RegisterCommands(new ApplicationCommands());
+            CompositeRoot.Instance.CommandAgent.RegisterCommands(new WindowsCommands());
+            CompositeRoot.Instance.CommandAgent.RegisterCommands(new GitCommands());
         }
     }
 }
