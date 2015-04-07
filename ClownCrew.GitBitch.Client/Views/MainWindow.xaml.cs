@@ -9,5 +9,10 @@ namespace ClownCrew.GitBitch.Client.Views
             InitializeComponent();
             Visibility = Visibility.Hidden;
         }
+
+        public void Show()
+        {
+            Visibility = Visibility.Visible;
+        }
     }
 }

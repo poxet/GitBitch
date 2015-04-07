@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using ClownCrew.GitBitch.Client.Interfaces;
+using ClownCrew.GitBitch.Client.Views;
 
 namespace ClownCrew.GitBitch.Client
 {
@@ -13,15 +14,21 @@ namespace ClownCrew.GitBitch.Client
         {
             _notifyIcon.Icon = new Icon(@"Resources/GitBitch.ico");
             eventHub.StartTalkingEvent += StartTalkingEvent;
+            _notifyIcon.BalloonTipClicked += BalloonTipClicked;
+        }
+
+        private void BalloonTipClicked(object sender, EventArgs e)
+        {
+            ((MainWindow)System.Windows.Application.Current.MainWindow).Show();
         }
 
         private void StartTalkingEvent(object sender, Model.EventArgs.StartTalkingEventArgs e)
         {
-            _notifyIcon.ShowBalloonTip(5000, e.Name, e.Phrase, ToolTipIcon.Info);
+            _notifyIcon.ShowBalloonTip(5000, e.Name, e.Phrase, ToolTipIcon.Info);            
         }
 
         public void Dispose()
-        {
+        {            
             _notifyIcon.Dispose();
         }
 
