@@ -20,6 +20,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A1CC94B2-DBE3-453A-9E69-C43A32B2498C}"
+	ProjectSection(SolutionItems) = preProject
+		Build\AssemblyVersionInfo.cs = Build\AssemblyVersionInfo.cs
+		Build\build.tasks = Build\build.tasks
+		Build\ci.msbuild = Build\ci.msbuild
+		Build\release.msbuild = Build\release.msbuild
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chocolatey", "chocolatey", "{7F4AF0E6-AC20-4A59-A66F-7379086788C7}"
+	ProjectSection(SolutionItems) = preProject
+		chocolatey\ChocolateyInstall.ps1 = chocolatey\ChocolateyInstall.ps1
+		chocolatey\GitBitch.nuspec = chocolatey\GitBitch.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

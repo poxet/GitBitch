@@ -72,6 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="..\Build\AssemblyVersionInfo.cs">
+      <Link>Properties\AssemblyVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Commands\Application\AutoStartCommand.cs" />
     <Compile Include="Commands\Git\GitBusiness.cs" />
     <Compile Include="Commands\Git\GitCommandTools.cs" />
