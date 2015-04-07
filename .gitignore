@@ -58,6 +58,7 @@ Thumbs.db
  
 #NuGet
 packages/
+*.nupkg
 
 # NCrunch
 *.crunchsolution.cache
@@ -86,3 +87,4 @@ _ReSharper.*
 # Database
 *.mdf
 *.ldf
+

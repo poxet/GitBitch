@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>GitBitch</id>
+    <version>1.0.1</version>
+	<title>Git Bitch Alfa</title>
+    <authors>Daniel Bohlin</authors>
+	<owners>Clown Crew</owners>
+    <description>Git Voice Commands with personality</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/poxet/GitBitch</projectUrl>
+    <licenseUrl>https://github.com/poxet/GitBitch</licenseUrl>
+	<iconUrl>http://www.thargelion.se/Images/Logotype/Thargelion-White-Icon-150.png</iconUrl>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<summary>An even cooler interface to Git version control.</summary>
+	<releaseNotes>https://github.com/poxet/GitBitch</releaseNotes>
+	<tags>git voice command attitude bitch dominatrix</tags>
+    <dependencies>
+      <dependency id="git" version="1.9.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\ClownCrew.GitBitch.Client\bin\Release\ClownCrew.GitBitch.Client.exe" target="lib" />
+	<file src="..\ClownCrew.GitBitch.Client\bin\Release\Castle.Windsor.dll" target="lib" />
+	<file src="..\ClownCrew.GitBitch.Client\bin\Release\Castle.Core.dll" target="lib" />
+	<file src="..\ClownCrew.GitBitch.Client\bin\Release\Names.txt" target="lib" />
+	<file src="ChocolateyInstall.ps1" target="tools" />
+  </files>
+</package>

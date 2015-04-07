@@ -1,5 +1,5 @@
 using System;
-using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Views;
@@ -12,7 +12,10 @@ namespace ClownCrew.GitBitch.Client
 
         public Notifyer(IEventHub eventHub)
         {
-            _notifyIcon.Icon = new Icon(@"Resources/GitBitch.ico");
+            var asmName = Assembly.GetExecutingAssembly().GetName().Name;
+            var iconStream = GetType().Assembly.GetManifestResourceStream(asmName + ".Resources.GitBitch.ico");
+            if (iconStream != null) _notifyIcon.Icon = new System.Drawing.Icon(iconStream);
+
             eventHub.StartTalkingEvent += StartTalkingEvent;
             _notifyIcon.BalloonTipClicked += BalloonTipClicked;
         }
