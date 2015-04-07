@@ -8,12 +8,12 @@ namespace ClownCrew.GitBitch.Client.Agents
     public class GitRepoAgent : IGitRepoAgent
     {
         private readonly ITalkAgent _talkAgent;
-        private readonly IRepositoryBusines _repositoryBusines;
+        private readonly IRepositoryBusines _repositoryBusiness;
 
-        public GitRepoAgent(ITalkAgent talkAgent, IRepositoryBusines repositoryBusines)
+        public GitRepoAgent(ITalkAgent talkAgent, IRepositoryBusines repositoryBusiness)
         {
             _talkAgent = talkAgent;
-            _repositoryBusines = repositoryBusines;
+            _repositoryBusiness = repositoryBusiness;
         }
 
         public async Task SearchAsync()
@@ -27,7 +27,7 @@ namespace ClownCrew.GitBitch.Client.Agents
                     var gitFolderPath = gitFolder.Replace("\\.git", string.Empty);
                     var gitRepoName = gitFolderPath.Substring(gitFolderPath.LastIndexOf("\\", StringComparison.Ordinal) + 1);
                     await _talkAgent.SayAsync("Found git repo " + gitRepoName + ".");
-                    _repositoryBusines.Add(gitRepoName, gitFolderPath);
+                    _repositoryBusiness.Add(gitRepoName, gitFolderPath);
                 }
             }
         }

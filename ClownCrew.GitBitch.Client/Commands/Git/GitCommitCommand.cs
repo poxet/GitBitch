@@ -46,9 +46,8 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
                 commitMessage = "--no-edit";
             }
 
-            //TODO: Fix threading so that this part start to work.
-            //if (string.IsNullOrEmpty(commitMessage))
-            //    commitMessage = "-m \"" + await _questionAgent.AskStringAsync("Enter a commit message") + "\"";
+            if (string.IsNullOrEmpty(commitMessage))
+                commitMessage = "-m \"" + await _questionAgent.AskStringAsync("Enter a commit message") + "\"";
 
             var retry = true;
             while (retry)

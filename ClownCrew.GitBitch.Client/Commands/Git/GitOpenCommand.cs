@@ -41,11 +41,9 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
             if (!string.IsNullOrEmpty(name))
             {
                 _settingAgent.SetSetting("Repositories", name, path);
-
-                //TODO: Store informaton about this repo in registry
-                //TODO: Select this repository
                 await _talkAgent.SayAsync("I have selected repository " + name + " for you.");
                 _repositoryBusiness.Select(name);
+                _repositoryBusiness.Add(name, path);
             }
             else
             {
