@@ -22,3 +22,8 @@ The retry the chocolatey installation
 choco install gitbitch -version 1.0.1
 
 In most cases that will fix the problem.
+
+## Known startup install issues
+You must have a default recording device selected.
+You must have a default playback device selected.
+Rightclick the volume button on your taskbar in windows to set default recording and playback devices.
