@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using ClownCrew.GitBitch.Client.Commands.Application;
 using ClownCrew.GitBitch.Client.Commands.Git;
 using ClownCrew.GitBitch.Client.Commands.Windows;
@@ -18,7 +20,7 @@ namespace ClownCrew.GitBitch.Client
             CompositeRoot.Instance.Notifyer.Show();
         }
 
-        private void UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        private void UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             CompositeRoot.Instance.TalkAgent.SayAsync("Oups, now we have problems! " + e.Exception.Message);
         }
@@ -27,12 +29,12 @@ namespace ClownCrew.GitBitch.Client
         {
             base.OnStartup(e);
 
+            CloseCommand.CloseDownEvent += CloseDownEvent;
+
             await SetBitchNameAsync();
             RegisterCommands();
             await Greeting();
             await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");
-
-            CloseCommand.CloseDownEvent += CloseDownEvent;
         }
 
         private static async Task SetBitchNameAsync()
@@ -61,7 +63,7 @@ namespace ClownCrew.GitBitch.Client
         private static async Task AskForOperstorsName()
         {
             var names = ChangeNameCommand.GetDefaultNames(Constants.DefaultOperatorName);
-            if (System.IO.File.Exists("Names.txt")) names.AddRange(System.IO.File.ReadAllLines("Names.txt"));
+            if (File.Exists("Names.txt")) names.AddRange(File.ReadAllLines("Names.txt"));
             var alternatives = names.Select(x => new QuestionAnswerAlternative<string> { Phrases = new List<string> { x }, Response = x }).ToList();
             var response = await CompositeRoot.Instance.QuestionAgent.AskAsync("What is your name?", alternatives, 12000);
             if (response.Response == Constants.DefaultBitchName) await CompositeRoot.Instance.TalkAgent.SayAsync("Have it your way, I will just call you " + response.Response + " then.");
@@ -72,6 +74,7 @@ namespace ClownCrew.GitBitch.Client
 
         private void CloseDownEvent(object sender, EventArgs e)
         {
+            //TODO: Tell the window that it is allowed to close down. (Instead of be hidden)
             Dispatcher.Invoke(Shutdown);
         }
 

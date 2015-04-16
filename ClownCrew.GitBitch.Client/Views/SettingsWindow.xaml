@@ -1,0 +1,13 @@
+﻿<Window x:Class="ClownCrew.GitBitch.Client.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Height="300" Width="300" ResizeMode="NoResize">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Application">A</TabItem>
+            <TabItem Header="Addon 1">B</TabItem>
+            <TabItem Header="Addon 2">C</TabItem>
+            <TabItem Header="Addon 3">D</TabItem>
+        </TabControl>
+    </Grid>
+</Window>

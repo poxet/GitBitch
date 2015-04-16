@@ -4,7 +4,7 @@
         xmlns:viewModels="clr-namespace:ClownCrew.GitBitch.Client.ViewModels"
         Title="Git Bitch Alfa"
         Height="350"
-        Width="525" >
+        Width="525">
 
     <Window.DataContext>
         <viewModels:MainWindowViewModel />

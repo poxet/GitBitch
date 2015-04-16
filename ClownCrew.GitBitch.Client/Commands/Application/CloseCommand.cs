@@ -10,7 +10,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
         private readonly ITalkAgent _talkAgent;
         public static event EventHandler<EventArgs> CloseDownEvent;
 
-        private static void InvokeCloseDownEvent()
+        internal static void InvokeCloseDownEvent()
         {
             var handler = CloseDownEvent;
             if (handler != null) handler(null, EventArgs.Empty);
