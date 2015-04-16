@@ -7,7 +7,7 @@ namespace ClownCrew.GitBitch.Client.Agents
 {
     public class SettingAgent : ISettingAgent
     {
-        private const string RegistryPath = @"Software\Thargelion\GitBitch";
+        private const string RegistryPath = @"Software\ClownCrew\GitBitch";
         private readonly IRegistryRepository _registryRepository;
 
         public SettingAgent(IRegistryRepository registryRepository)

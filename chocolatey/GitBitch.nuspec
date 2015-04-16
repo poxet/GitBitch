@@ -14,7 +14,7 @@
 	<requireLicenseAcceptance>false</requireLicenseAcceptance>
 	<summary>An even cooler interface to Git version control.</summary>
 	<releaseNotes>https://github.com/poxet/GitBitch</releaseNotes>
-	<tags>git voice command attitude bitch dominatrix</tags>
+	<tags>git voice command attitude</tags>
     <dependencies>
       <dependency id="git" version="1.9.0" />
     </dependencies>
