@@ -19,5 +19,6 @@ namespace ClownCrew.GitBitch.Client.Commands.Windows
         }
 
         public IEnumerable<IGitBitchCommand> Items { get { return _commands; } }
+        public string Name { get { return "Windows"; } }
     }
 }

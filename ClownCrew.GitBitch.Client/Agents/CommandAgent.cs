@@ -20,6 +20,8 @@ namespace ClownCrew.GitBitch.Client.Agents
         private bool _listenerActice;
         private bool _voiceListenerWorking;
 
+        public event EventHandler<CommandRegisteredEventArgs> CommandRegisteredEvent;
+
         public CommandAgent(IEventHub eventHub, ISettingAgent settingAgent)
         {
             _eventHub = eventHub;
@@ -206,6 +208,7 @@ namespace ClownCrew.GitBitch.Client.Agents
 
                 command.RegisterPhraseEvent += Command_RegisterPhraseEvent;
                 _commands.Add(command);
+                InvokeCommandRegisteredEvent(gitBitchCommands.Name, command);
             }
         }
 
@@ -235,6 +238,12 @@ namespace ClownCrew.GitBitch.Client.Agents
         private void Command_RegisterPhraseEvent(object sender, RegisterPhraseEventArgs e)
         {
             AddPhrases(e.Phrases);
+        }
+
+        protected virtual void InvokeCommandRegisteredEvent(string sectionName, IGitBitchCommand command)
+        {
+            var handler = CommandRegisteredEvent;
+            if (handler != null) handler(this, new CommandRegisteredEventArgs(sectionName, command));
         }
     }
 }

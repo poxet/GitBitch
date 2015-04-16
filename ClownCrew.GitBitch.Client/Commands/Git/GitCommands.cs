@@ -30,5 +30,6 @@ namespace ClownCrew.GitBitch.Client.Commands.Git
         }
 
         public IEnumerable<IGitBitchCommand> Items { get { return _commands; } }
+        public string Name { get { return "Git"; } }
     }
 }

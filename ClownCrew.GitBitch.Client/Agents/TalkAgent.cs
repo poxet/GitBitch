@@ -42,7 +42,7 @@ namespace ClownCrew.GitBitch.Client.Agents
                 using (var synthesizer = new SpeechSynthesizer())
                 {
                     var voices = synthesizer.GetInstalledVoices();
-                    var voice = voices.FirstOrDefault(x => x.VoiceInfo.Gender == VoiceGender.Female);
+                    var voice = voices.LastOrDefault(x => x.VoiceInfo.Gender == VoiceGender.Female);
                     if (voice == null) voice = voices.FirstOrDefault();
                     if (voice == null) throw new InvalidOperationException("Cannot find any installed voices.");
 

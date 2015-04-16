@@ -8,7 +8,6 @@ namespace ClownCrew.GitBitch.Client.Interfaces
     public interface IGitBitchCommand
     {
         event EventHandler<RegisterPhraseEventArgs> RegisterPhraseEvent;
-
         string Name { get; }
         IEnumerable<string> Phrases { get; }
         Task ExecuteAsync(string key, string phrase);
