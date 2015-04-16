@@ -41,7 +41,7 @@ namespace ClownCrew.GitBitch.Client.Repositories
             var value = key.GetValue(keyName);
             if (value == null) return defaultValue;
 
-            return (T)value;
+            return ConvertValue<T>(value.ToString());
         }
 
         public void SetSetting<T>(RegistryHKey registryHKey, string path, string keyName, T value)

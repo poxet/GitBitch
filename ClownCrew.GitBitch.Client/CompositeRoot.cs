@@ -1,9 +1,8 @@
-﻿using System.Windows.Forms;
-
-using Castle.MicroKernel.Registration;
+﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Business;
+using ClownCrew.GitBitch.Client.Commands.Application;
 using ClownCrew.GitBitch.Client.Commands.Git;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Repositories;
@@ -35,18 +34,25 @@ namespace ClownCrew.GitBitch.Client
         private CompositeRoot()
         {
             _container = new WindsorContainer();
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<TalkAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<GitRepoAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<DataRepository>()).WithService.DefaultInterfaces().LifestyleSingleton());
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<RepositoryBusines>()).WithService.DefaultInterfaces().LifestyleSingleton());
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<SettingAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<RegistryRepository>()).WithService.DefaultInterfaces().LifestyleSingleton());
+
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<EventHub>()).WithService.DefaultInterfaces().LifestyleSingleton());
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<GitBusiness>()).WithService.DefaultInterfaces().LifestyleSingleton());
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<Notifyer>()).WithService.DefaultInterfaces().LifestyleSingleton());
 
+            //TODO: Register all Busines classes by name convension
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<RepositoryBusines>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<GitBusiness>()).WithService.DefaultInterfaces().LifestyleSingleton());
+
+            //TODO: Register all Repositories by name convension
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<DataRepository>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<RegistryRepository>()).WithService.DefaultInterfaces().LifestyleSingleton());
+
             //TODO: Register all Agents by name convension
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<TalkAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<GitRepoAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<SettingAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
+
             //TODO: Register all commands by name convension
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<HelpCommand>()).WithService.DefaultInterfaces().LifestyleSingleton());                        
         }
 
         ~CompositeRoot()

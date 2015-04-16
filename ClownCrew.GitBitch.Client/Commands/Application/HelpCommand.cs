@@ -4,10 +4,6 @@ using ClownCrew.GitBitch.Client.Interfaces;
 
 namespace ClownCrew.GitBitch.Client.Commands.Application
 {
-    public interface IHelpCommand : IGitBitchCommand
-    {
-    }
-
     public class HelpCommand : GitBitchCommand
     {
         private readonly ITalkAgent _talkAgent;

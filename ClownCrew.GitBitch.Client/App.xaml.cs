@@ -14,35 +14,28 @@ namespace ClownCrew.GitBitch.Client
     {
         public App()
         {
-            Dispatcher.UnhandledException += Dispatcher_UnhandledException;
+            Dispatcher.UnhandledException += UnhandledException;
             CompositeRoot.Instance.Notifyer.Show();
         }
 
-        private void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        private void UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             CompositeRoot.Instance.TalkAgent.SayAsync("Oups, now we have problems! " + e.Exception.Message);
         }
 
-        protected async override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
-            try
-            {
-                base.OnStartup(e);
+            base.OnStartup(e);
 
-                await SetBitchNameAsync();
-                RegisterCommands();
-                await Greeting();
-                await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");
+            await SetBitchNameAsync();
+            RegisterCommands();
+            await Greeting();
+            await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");
 
-                CloseCommand.CloseDownEvent += CloseDownEvent;
-            }
-            catch (SystemException exception)
-            {
-                CompositeRoot.Instance.TalkAgent.SayAsync("Oups, now we have problems! " + exception.Message);
-            }
+            CloseCommand.CloseDownEvent += CloseDownEvent;
         }
 
-        public static async Task SetBitchNameAsync()
+        private static async Task SetBitchNameAsync()
         {
             if (CompositeRoot.Instance.SettingAgent.HasSetting(Constants.BitchName)) return;
             await CompositeRoot.Instance.TalkAgent.SayAsync("Hi! This is git bitch alfa.");
@@ -50,7 +43,7 @@ namespace ClownCrew.GitBitch.Client
             CompositeRoot.Instance.SettingAgent.UseAutoStart(true);
         }
 
-        public static async Task Greeting()
+        private static async Task Greeting()
         {
             if (CompositeRoot.Instance.SettingAgent.HasSetting("YourName"))
             {
@@ -85,9 +78,11 @@ namespace ClownCrew.GitBitch.Client
         public static void RegisterCommands()
         {
             CompositeRoot.Instance.CommandAgent.ClearCommands();
+            //TODO: Look for commands by convension.
             CompositeRoot.Instance.CommandAgent.RegisterCommands(new ApplicationCommands());
             CompositeRoot.Instance.CommandAgent.RegisterCommands(new WindowsCommands());
             CompositeRoot.Instance.CommandAgent.RegisterCommands(new GitCommands());
+            //TODO: Also look for dll's in the main folder to load stuff from there
         }
     }
 }

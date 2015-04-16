@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Speech.Recognition;
-
-using ClownCrew.GitBitch.Client.Exceptions;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Model;
 using ClownCrew.GitBitch.Client.Model.EventArgs;
@@ -20,8 +18,9 @@ namespace ClownCrew.GitBitch.Client.Agents
         private bool _initiated;
         private int _interruptCounter;
         private bool _listenerActice;
+        private bool _voiceListenerWorking;
 
-        public CommandAgent(IEventHub eventHub)
+        public CommandAgent(IEventHub eventHub, ISettingAgent settingAgent)
         {
             _eventHub = eventHub;
             _commands = new List<IGitBitchCommand>();
@@ -47,16 +46,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             _speechRecognitionEngine.AudioLevelUpdated += AudioLevelUpdated;
             _speechRecognitionEngine.AudioSignalProblemOccurred += AudioSignalProblemOccurred;
 
-            try
-            {
-                _speechRecognitionEngine.SetInputToDefaultAudioDevice();
-            }
-            catch (InvalidOperationException exception)
-            {
-                throw new NoDefaultAudioDeviceException(exception);
-            }
-
-            _eventHub.InvokeAudioInputStateChangedEvent(Source.CommandAgent, ListeningAudioState.NotListening);
+            _eventHub.InvokeAudioInputStateChangedEvent(Source.CommandAgent, _voiceListenerWorking ? ListeningAudioState.NotListening : ListeningAudioState.MicrophoneMuted);
         }
 
         private void EventHub_DoneWorkingEvent(object sender, DoneWorkingEventArgs e)
@@ -119,7 +109,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             if (_listenerActice) return;
 
             _listenerActice = true;
-            _eventHub.InvokeAudioInputStateChangedEvent(Source.ListenerAgent, ListeningAudioState.Listening);
+            _eventHub.InvokeAudioInputStateChangedEvent(Source.ListenerAgent, _voiceListenerWorking ? ListeningAudioState.Listening : ListeningAudioState.MicrophoneMuted);
         }
 
         private void StopListening()
@@ -127,7 +117,7 @@ namespace ClownCrew.GitBitch.Client.Agents
             if (!_listenerActice) return;
 
             _listenerActice = false;
-            _eventHub.InvokeAudioInputStateChangedEvent(Source.ListenerAgent, ListeningAudioState.NotListening);
+            _eventHub.InvokeAudioInputStateChangedEvent(Source.ListenerAgent, _voiceListenerWorking ? ListeningAudioState.NotListening : ListeningAudioState.MicrophoneMuted);
         }
 
         private void SpeechDetected(object sender, SpeechDetectedEventArgs e)
@@ -233,7 +223,11 @@ namespace ClownCrew.GitBitch.Client.Agents
                 if (!_initiated)
                 {
                     _initiated = true;
-                    _speechRecognitionEngine.RecognizeAsync(RecognizeMode.Multiple);
+                    if (_voiceListenerWorking)
+                    {
+                        _speechRecognitionEngine.SetInputToDefaultAudioDevice();
+                        _speechRecognitionEngine.RecognizeAsync(RecognizeMode.Multiple);
+                    }
                 }
             }
         }

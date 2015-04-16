@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Threading;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Model;
 using ClownCrew.GitBitch.Client.Model.EventArgs;
@@ -31,36 +29,57 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         public async Task<Answer<T>> AskAsync<T>(string question, List<QuestionAnswerAlternative<T>> alternatives, int millisecondsTimeout = 3000)
         {
-            using (var listenerAgent = new ListenerAgent<T>(_eventHub, alternatives))
+            if (_settingAgent.GetSetting("Muted", false))
             {
-                listenerAgent.HeardSomethingEvent += EventHub_HeardSomethingEvent;
-
-                var listenId = Guid.NewGuid();
-                _eventHub.InvokeStartListeningEvent(listenId);
-
-                await _talkAgent.SayAsync(question);
-                listenerAgent.StartListening();
-
-                ////string defaultResponse = null;
-                var r = await Task.Factory.StartNew(() =>
-                {
-                    if (!_responseEvent.WaitOne(millisecondsTimeout))
-                    {
-                        var defaultAlternative = alternatives.FirstOrDefault(x => x.IsDefault) ?? alternatives.First();
-                        ////defaultResponse = "No answer, so " + defaultAlternative.Phrases.First() + " then.";
-                        return new Answer<T>(defaultAlternative.Response);
-                    }
-
-                    var selectedAlternative = alternatives.First(x => x.Phrases.Any(y => y == _responsePhrase));
-                    return new Answer<T>(selectedAlternative.Response);
-                });
-
-                ////if (!string.IsNullOrEmpty(defaultResponse)) await _talkAgent.SayAsync(defaultResponse);
-
-                _eventHub.InvokeDoneListeningEvent(listenId);
-
-                return r;
+                //TODO: Show dialog where the anser can be entered. The dialog should have the same timeout as the default answer.
+                //There should be one answer for each alternative, up to a limit, where there will be a drop down.
+                //If there are no set alternatives, there should be a text input box for answers.
+                //Also look at the other question functions: AskYesNoAsync, AskFolderAsync and AskStringAsync. And align them as well.
+                return GetDefaultAnswer(alternatives);
             }
+
+            try
+            {
+                using (var listenerAgent = new ListenerAgent<T>(_eventHub, alternatives))
+                {
+                    listenerAgent.HeardSomethingEvent += EventHub_HeardSomethingEvent;
+
+                    var listenId = Guid.NewGuid();
+                    _eventHub.InvokeStartListeningEvent(listenId);
+
+                    await _talkAgent.SayAsync(question);
+                    listenerAgent.StartListening();
+
+                    var r = await Task.Factory.StartNew(() =>
+                        {
+                            if (!_responseEvent.WaitOne(millisecondsTimeout))
+                            {
+                                return GetDefaultAnswer(alternatives);
+                            }
+
+                            var selectedAlternative = alternatives.First(x => x.Phrases.Any(y => y == _responsePhrase));
+                            return new Answer<T>(selectedAlternative.Response);
+                        });
+
+                    _eventHub.InvokeDoneListeningEvent(listenId);
+
+                    return r;
+                }
+            }
+            catch (InvalidOperationException exception)
+            {
+                CompositeRoot.Instance.TalkAgent.SayAsync("Oups, now we have problems! " + exception.Message);
+                _settingAgent.SetSetting("Muted", true);
+            }
+
+            return GetDefaultAnswer(alternatives);
+        }
+
+        private static Answer<T> GetDefaultAnswer<T>(List<QuestionAnswerAlternative<T>> alternatives)
+        {
+            var defaultAlternative = alternatives.FirstOrDefault(x => x.IsDefault) ?? alternatives.First();
+            var answer = new Answer<T>(defaultAlternative.Response);
+            return answer;
         }
 
         private void EventHub_HeardSomethingEvent(object sender, HeardSomethingEventArgs e)

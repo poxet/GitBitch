@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;
-using System.Windows.Controls.Primitives;
-
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Model;
 

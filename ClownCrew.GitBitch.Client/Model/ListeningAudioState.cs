@@ -1,4 +1,4 @@
 ﻿namespace ClownCrew.GitBitch.Client.Model
 {
-    public enum ListeningAudioState { NotListening, Listening }
+    public enum ListeningAudioState { NotListening, Listening, MicrophoneMuted }
 }

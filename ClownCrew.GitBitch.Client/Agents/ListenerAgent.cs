@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Speech.Recognition;
-
 using ClownCrew.GitBitch.Client.Exceptions;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Model;
@@ -15,6 +15,7 @@ namespace ClownCrew.GitBitch.Client.Agents
         private readonly IEventHub _eventHub;
         private readonly SpeechRecognitionEngine _speechRecognitionEngine;
         private bool _listenerActice;
+        private bool _voiceListenerWorking;
 
         public event EventHandler<HeardSomethingEventArgs> HeardSomethingEvent;
 
@@ -101,12 +102,12 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         private void RecognizerUpdateReached(object sender, RecognizerUpdateReachedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Recognizer update reached.");
+            Debug.WriteLine("Recognizer update reached.");
         }
 
         private void RecognizeCompleted(object sender, RecognizeCompletedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Recognize completed. " + (e.Cancelled ? "Cancelled" : string.Empty) + ".");
+            Debug.WriteLine("Recognize completed. " + (e.Cancelled ? "Cancelled" : string.Empty) + ".");
         }
 
         private void LoadGrammarCompleted(object sender, LoadGrammarCompletedEventArgs e)
@@ -116,17 +117,17 @@ namespace ClownCrew.GitBitch.Client.Agents
 
         private void EmulateRecognizeCompleted(object sender, EmulateRecognizeCompletedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Emulate recognize completed '" + e.Result.Text + "'.");
+            Debug.WriteLine("Emulate recognize completed '" + e.Result.Text + "'.");
         }
 
         private void AudioStateChanged(object sender, AudioStateChangedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Audio state changed to " + e.AudioState + ".");
+            Debug.WriteLine("Audio state changed to " + e.AudioState + ".");
         }
 
         private void SpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Speech hypothesized '" + e.Result.Text + "'.");
+            Debug.WriteLine("Speech hypothesized '" + e.Result.Text + "'.");
         }
 
         private void SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
@@ -135,26 +136,26 @@ namespace ClownCrew.GitBitch.Client.Agents
 
             if (e.Result.Text != string.Empty)
             {
-                System.Diagnostics.Debug.WriteLine("Speech recognition rejected '" + e.Result.Text + "'.");
+                Debug.WriteLine("Speech recognition rejected '" + e.Result.Text + "'.");
                 InvokeHeardSomethingEvent(Source.ListenerAgent, e.Result.Text);
             }
         }
 
         private void SpeechDetected(object sender, SpeechDetectedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Speech detected with audio position " + e.AudioPosition + ".");
+            Debug.WriteLine("Speech detected with audio position " + e.AudioPosition + ".");
         }
 
         private void AudioSignalProblemOccurred(object sender, AudioSignalProblemOccurredEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Audio signal problem occurred.");
+            Debug.WriteLine("Audio signal problem occurred.");
         }
 
         private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             if (!_listenerActice) return;
 
-            System.Diagnostics.Debug.WriteLine("Speech recognized as '" + e.Result.Text + "'.");
+            Debug.WriteLine("Speech recognized as '" + e.Result.Text + "'.");
             InvokeHeardSomethingEvent(Source.ListenerAgent, e.Result.Text);
         }
     }

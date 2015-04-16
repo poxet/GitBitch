@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ClownCrew.GitBitch.Client.Interfaces;
@@ -23,12 +23,20 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
             var currentName = _settingAgent.GetSetting(Constants.BitchName, Constants.DefaultBitchName);
 
             var names = GetDefaultNames(Constants.DefaultBitchName);
-            if (System.IO.File.Exists("Names.txt")) names.AddRange(System.IO.File.ReadAllLines("Names.txt"));
+            if (File.Exists("Names.txt")) names.AddRange(File.ReadAllLines("Names.txt"));
 
             var response = new Answer<bool>(false);
             var bitchName = new Answer<string>(names.First());
             while (!response.Response)
             {
+                //TODO: Remove this line after that the text-input question is enabled. Before we have that this will result in an infinite loop.
+                if (_settingAgent.GetSetting("Muted", false))
+                {
+                    await _talkAgent.SayAsync("You are muted to me, so I will not hear what you are saying. Microphone mute is enabled automatically when there is a technical problem. You can also do this manually.");
+                    return;
+                }
+                //TODO: ^^ This crappy part above, remove it when the AskAsnyc method can handle manual user input that does not come from the microphone ^^
+
                 bitchName = await _talkAgent.AskAsync("What do you want my name to be?", names.Select(x => new QuestionAnswerAlternative<string> { Phrases = new List<string> { x }, Response = x }).ToList(), 5000);
                 response = await _talkAgent.AskAsync(string.Format("So you want my name to be {0}?", bitchName.Response), new List<QuestionAnswerAlternative<bool>> { new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "Yes" }, Response = true, IsDefault = hasSetting }, new QuestionAnswerAlternative<bool> { Phrases = new List<string> { "No" }, Response = false, IsDefault = !hasSetting } });
             }
