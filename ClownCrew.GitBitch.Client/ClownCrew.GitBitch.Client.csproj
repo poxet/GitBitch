@@ -98,6 +98,7 @@
     <Compile Include="Commands\Git\GitStashCommand.cs" />
     <Compile Include="Commands\Git\GitStashPopCommand.cs" />
     <Compile Include="Commands\Git\GitUnstageCommand.cs" />
+    <Compile Include="Exceptions\NoDefaultAudioDeviceException.cs" />
     <Compile Include="Interfaces\IGitBusiness.cs" />
     <Compile Include="Interfaces\INotifyer.cs" />
     <Compile Include="Model\EventArgs\AudioInputStateChangedEventArgs.cs" />

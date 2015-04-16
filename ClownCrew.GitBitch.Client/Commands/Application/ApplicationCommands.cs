@@ -11,6 +11,7 @@ namespace ClownCrew.GitBitch.Client.Commands.Application
         {
             _commands = new List<IGitBitchCommand>
             {
+                CompositeRoot.Instance.Resolve<IHelpCommand>(),
                 new HelpCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.TalkAgent, CompositeRoot.Instance.CommandAgent),
                 new CloseCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.QuestionAgent, CompositeRoot.Instance.TalkAgent),
                 new ChangeNameCommand(CompositeRoot.Instance.SettingAgent, CompositeRoot.Instance.TalkAgent),

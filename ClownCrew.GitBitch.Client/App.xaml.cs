@@ -25,14 +25,21 @@ namespace ClownCrew.GitBitch.Client
 
         protected async override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
+            try
+            {
+                base.OnStartup(e);
 
-            await SetBitchNameAsync();
-            RegisterCommands();
-            await Greeting();
-            await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");
+                await SetBitchNameAsync();
+                RegisterCommands();
+                await Greeting();
+                await CompositeRoot.Instance.TalkAgent.SayAsync("What can I help you with?");
 
-            CloseCommand.CloseDownEvent += CloseDownEvent;
+                CloseCommand.CloseDownEvent += CloseDownEvent;
+            }
+            catch (SystemException exception)
+            {
+                CompositeRoot.Instance.TalkAgent.SayAsync("Oups, now we have problems! " + exception.Message);
+            }
         }
 
         public static async Task SetBitchNameAsync()

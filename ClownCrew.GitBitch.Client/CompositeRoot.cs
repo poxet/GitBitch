@@ -1,4 +1,6 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using System.Windows.Forms;
+
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Business;
@@ -28,6 +30,8 @@ namespace ClownCrew.GitBitch.Client
         public IGitBusiness GitBusiness { get { return _container.Resolve<IGitBusiness>(); } }
         public INotifyer Notifyer { get { return _container.Resolve<INotifyer>(); } }
 
+        public T Resolve<T>() { return _container.Resolve<T>(); }
+
         private CompositeRoot()
         {
             _container = new WindsorContainer();
@@ -40,6 +44,9 @@ namespace ClownCrew.GitBitch.Client
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<EventHub>()).WithService.DefaultInterfaces().LifestyleSingleton());
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<GitBusiness>()).WithService.DefaultInterfaces().LifestyleSingleton());
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<Notifyer>()).WithService.DefaultInterfaces().LifestyleSingleton());
+
+            //TODO: Register all Agents by name convension
+            //TODO: Register all commands by name convension
         }
 
         ~CompositeRoot()

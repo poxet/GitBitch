@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Speech.Recognition;
+
+using ClownCrew.GitBitch.Client.Exceptions;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Model;
 using ClownCrew.GitBitch.Client.Model.EventArgs;
@@ -56,7 +58,16 @@ namespace ClownCrew.GitBitch.Client.Agents
 
             _speechRecognitionEngine.LoadGrammar(gr);
             _speechRecognitionEngine.RequestRecognizerUpdate();
-            _speechRecognitionEngine.SetInputToDefaultAudioDevice();
+
+            try
+            {
+                _speechRecognitionEngine.SetInputToDefaultAudioDevice();
+            }
+            catch (InvalidOperationException exception)
+            {
+                throw new NoDefaultAudioDeviceException(exception);
+            }
+
             _speechRecognitionEngine.RecognizeAsync(RecognizeMode.Single);
         }
 

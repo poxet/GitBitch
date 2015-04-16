@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Speech.Recognition;
+
+using ClownCrew.GitBitch.Client.Exceptions;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Model;
 using ClownCrew.GitBitch.Client.Model.EventArgs;
@@ -45,7 +47,14 @@ namespace ClownCrew.GitBitch.Client.Agents
             _speechRecognitionEngine.AudioLevelUpdated += AudioLevelUpdated;
             _speechRecognitionEngine.AudioSignalProblemOccurred += AudioSignalProblemOccurred;
 
-            _speechRecognitionEngine.SetInputToDefaultAudioDevice();
+            try
+            {
+                _speechRecognitionEngine.SetInputToDefaultAudioDevice();
+            }
+            catch (InvalidOperationException exception)
+            {
+                throw new NoDefaultAudioDeviceException(exception);
+            }
 
             _eventHub.InvokeAudioInputStateChangedEvent(Source.CommandAgent, ListeningAudioState.NotListening);
         }
