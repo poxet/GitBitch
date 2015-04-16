@@ -24,10 +24,8 @@ namespace ClownCrew.GitBitch.Client
         public ITalkAgent TalkAgent { get { return _container.Resolve<ITalkAgent>(); } }
         public IQuestionAgent QuestionAgent { get { return _container.Resolve<IQuestionAgent>(); } }
         public ICommandAgent CommandAgent { get { return _container.Resolve<ICommandAgent>(); } }
-        //public IRepositoryBusines RepositoryBusines { get { return _container.Resolve<IRepositoryBusines>(); } }
         public ISettingAgent SettingAgent { get { return _container.Resolve<ISettingAgent>(); } }
         public IEventHub EventHub { get { return _container.Resolve<IEventHub>(); } }
-        //public IGitBusiness GitBusiness { get { return _container.Resolve<IGitBusiness>(); } }
         public INotifyer Notifyer { get { return _container.Resolve<INotifyer>(); } }
 
         public T Resolve<T>() { return _container.Resolve<T>(); }

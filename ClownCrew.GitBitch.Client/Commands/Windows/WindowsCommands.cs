@@ -14,7 +14,6 @@ namespace ClownCrew.GitBitch.Client.Commands.Windows
                 //new GenericCommand(CompositeRoot.Instance.SettingAgent, "Copy", new [] { "copy" }, () => { Clipboard.SetText("Hello, clipboard"); }),
                 //new GitBitchCommand("Paste", new List<string> { "paste" }),
                 CompositeRoot.Instance.Resolve<LockMachineCommand>(),
-                //new LockMachineCommand(CompositeRoot.Instance.SettingAgent)
             };
         }
 
