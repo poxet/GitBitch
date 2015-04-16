@@ -78,7 +78,7 @@ namespace ClownCrew.GitBitch.Client
         public static void RegisterCommands()
         {
             CompositeRoot.Instance.CommandAgent.ClearCommands();
-            //TODO: Look for commands by convension.
+            //TODO: Look for commands by convension. (Register all classes that inherits from GitBitchCommand)
             CompositeRoot.Instance.CommandAgent.RegisterCommands(new ApplicationCommands());
             CompositeRoot.Instance.CommandAgent.RegisterCommands(new WindowsCommands());
             CompositeRoot.Instance.CommandAgent.RegisterCommands(new GitCommands());

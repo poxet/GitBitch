@@ -4,6 +4,7 @@ using ClownCrew.GitBitch.Client.Agents;
 using ClownCrew.GitBitch.Client.Business;
 using ClownCrew.GitBitch.Client.Commands.Application;
 using ClownCrew.GitBitch.Client.Commands.Git;
+using ClownCrew.GitBitch.Client.Commands.Windows;
 using ClownCrew.GitBitch.Client.Interfaces;
 using ClownCrew.GitBitch.Client.Repositories;
 
@@ -23,10 +24,10 @@ namespace ClownCrew.GitBitch.Client
         public ITalkAgent TalkAgent { get { return _container.Resolve<ITalkAgent>(); } }
         public IQuestionAgent QuestionAgent { get { return _container.Resolve<IQuestionAgent>(); } }
         public ICommandAgent CommandAgent { get { return _container.Resolve<ICommandAgent>(); } }
-        public IRepositoryBusines RepositoryBusines { get { return _container.Resolve<IRepositoryBusines>(); } }
+        //public IRepositoryBusines RepositoryBusines { get { return _container.Resolve<IRepositoryBusines>(); } }
         public ISettingAgent SettingAgent { get { return _container.Resolve<ISettingAgent>(); } }
         public IEventHub EventHub { get { return _container.Resolve<IEventHub>(); } }
-        public IGitBusiness GitBusiness { get { return _container.Resolve<IGitBusiness>(); } }
+        //public IGitBusiness GitBusiness { get { return _container.Resolve<IGitBusiness>(); } }
         public INotifyer Notifyer { get { return _container.Resolve<INotifyer>(); } }
 
         public T Resolve<T>() { return _container.Resolve<T>(); }
@@ -35,8 +36,10 @@ namespace ClownCrew.GitBitch.Client
         {
             _container = new WindsorContainer();
 
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<EventHub>()).WithService.DefaultInterfaces().LifestyleSingleton());
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<Notifyer>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            //TODO: Register all Agents by name convension
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<TalkAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<GitRepoAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<SettingAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
 
             //TODO: Register all Busines classes by name convension
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<RepositoryBusines>()).WithService.DefaultInterfaces().LifestyleSingleton());
@@ -46,13 +49,12 @@ namespace ClownCrew.GitBitch.Client
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<DataRepository>()).WithService.DefaultInterfaces().LifestyleSingleton());
             _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<RegistryRepository>()).WithService.DefaultInterfaces().LifestyleSingleton());
 
-            //TODO: Register all Agents by name convension
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<TalkAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<GitRepoAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<SettingAgent>()).WithService.DefaultInterfaces().LifestyleSingleton());
-
             //TODO: Register all commands by name convension
-            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<HelpCommand>()).WithService.DefaultInterfaces().LifestyleSingleton());                        
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<HelpCommand>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<LockMachineCommand>()).WithService.DefaultInterfaces().LifestyleSingleton());
+
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<EventHub>()).WithService.DefaultInterfaces().LifestyleSingleton());
+            _container.Register(Classes.FromThisAssembly().Where(Component.IsInSameNamespaceAs<Notifyer>()).WithService.DefaultInterfaces().LifestyleSingleton());
         }
 
         ~CompositeRoot()
